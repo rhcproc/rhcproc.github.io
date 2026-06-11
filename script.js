@@ -15,6 +15,7 @@ const modalPrev = document.querySelector("[data-project-prev]");
 const modalNext = document.querySelector("[data-project-next]");
 const skillFilters = document.querySelector("[data-skill-filters]");
 const skillSearch = document.querySelector("[data-skill-search]");
+const filterProgress = document.querySelector("[data-filter-progress]");
 const projectGrid = document.querySelector("[data-project-grid]");
 
 let stars = [];
@@ -27,6 +28,8 @@ let orderedProjectImagesReady = Promise.resolve();
 let projectCards = [];
 let projectOrder = [];
 let projects = {};
+let filterProgressTimer = null;
+let filterSettleTimer = null;
 
 async function loadProjects() {
   if (window.location.protocol === "file:") {
@@ -34,7 +37,7 @@ async function loadProjects() {
   }
 
   try {
-    const response = await fetch("assets/projects/projects.json", { cache: "no-store" });
+    const response = await fetch("projects.json", { cache: "no-store" });
 
     if (!response.ok) {
       return [];
@@ -268,16 +271,69 @@ function renderSkillFilters() {
 
 function applySkillFilter(selectedSkill) {
   const showAll = selectedSkill === "All";
+  const filterDuration = prefersReducedMotion ? 0 : 380;
 
-  projectCards.forEach((card) => {
-    const stackKeywords = getCardStackKeywords(card);
-    const isMatch = showAll || stackKeywords.includes(selectedSkill);
-    card.classList.toggle("is-hidden", !isMatch);
-  });
+  window.clearTimeout(filterSettleTimer);
+  startFilterProgress();
 
   skillFilters?.querySelectorAll("button").forEach((button) => {
     button.setAttribute("aria-pressed", button.dataset.skillFilter === selectedSkill ? "true" : "false");
   });
+
+  const matchingCards = [];
+
+  projectCards.forEach((card) => {
+    const stackKeywords = getCardStackKeywords(card);
+    const isMatch = showAll || stackKeywords.includes(selectedSkill);
+
+    card.classList.remove("is-entering");
+    card.style.animationDelay = "";
+    card.classList.toggle("is-hidden", !isMatch);
+
+    if (isMatch) {
+      matchingCards.push(card);
+    }
+  });
+
+  void projectGrid?.offsetWidth;
+
+  matchingCards.forEach((card, index) => {
+    card.style.animationDelay = prefersReducedMotion ? "" : `${index * 35}ms`;
+    card.classList.add("is-entering");
+  });
+
+  filterSettleTimer = window.setTimeout(() => {
+    matchingCards.forEach((card) => {
+      card.classList.remove("is-entering");
+      card.style.animationDelay = "";
+    });
+  }, filterDuration);
+}
+
+function startFilterProgress() {
+  if (!filterProgress) {
+    return;
+  }
+
+  window.clearTimeout(filterProgressTimer);
+  filterProgress.hidden = false;
+  filterProgress.classList.remove("is-active");
+  projectGrid?.setAttribute("aria-busy", "true");
+
+  if (prefersReducedMotion) {
+    filterProgress.hidden = true;
+    projectGrid?.setAttribute("aria-busy", "false");
+    return;
+  }
+
+  void filterProgress.offsetWidth;
+  filterProgress.classList.add("is-active");
+
+  filterProgressTimer = window.setTimeout(() => {
+    filterProgress.classList.remove("is-active");
+    filterProgress.hidden = true;
+    projectGrid?.setAttribute("aria-busy", "false");
+  }, 540);
 }
 
 function filterSkillButtons(query) {
