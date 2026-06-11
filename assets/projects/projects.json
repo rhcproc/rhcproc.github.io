@@ -1,0 +1,36 @@
+[
+  {
+    "id": "agents",
+    "category": "Agents",
+    "title": "Foundry Agent Evaluation Lab",
+    "summary": "A repeatable evaluation workflow for hosted AI agents, including test datasets, scoring runs, and prompt iteration notes.",
+    "role": "AI systems engineer",
+    "stack": ["Azure AI Foundry", "Docker", "YAML"],
+    "result": "Repeatable agent quality checks before release",
+    "story": "This lab treats agent behavior as something measurable. It keeps evaluation data, scoring configuration, and iteration notes close together so every prompt or tool change can be compared against earlier runs.",
+    "outcomes": [
+      "Creates a repeatable loop for prompt and tool changes.",
+      "Keeps datasets and scoring configuration easy to audit.",
+      "Makes regression checks visible before deployment."
+    ],
+    "caseStudy": "#",
+    "source": "#"
+  },
+  {
+    "id": "portfolio",
+    "category": "Web",
+    "title": "Operations Portfolio Site",
+    "summary": "A fast static GitHub Pages site with cinematic visuals, structured project cards, and direct paths to contact and source code.",
+    "role": "Frontend design and build",
+    "stack": ["HTML", "CSS", "JavaScript"],
+    "result": "A polished buildless portfolio for GitHub Pages",
+    "story": "The site keeps the first screen atmospheric, then makes the work easy to scan through large cards. Each modal gives enough detail for a visitor to understand the problem, contribution, and result.",
+    "outcomes": [
+      "Loads as plain static files on GitHub Pages.",
+      "Uses modal detail views without adding a framework.",
+      "Keeps project information structured and easy to update."
+    ],
+    "caseStudy": "#",
+    "source": "#"
+  }
+]

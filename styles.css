@@ -228,6 +228,15 @@ h1 {
   padding: clamp(70px, 10vw, 132px) clamp(20px, 5vw, 72px);
 }
 
+#about.section {
+  padding-top: clamp(38px, 5vw, 72px);
+  padding-bottom: clamp(14px, 2vw, 28px);
+}
+
+#projects.section {
+  padding-top: clamp(18px, 3vw, 42px);
+}
+
 .section-heading {
   max-width: 760px;
   margin-bottom: 34px;
@@ -268,6 +277,7 @@ h2 {
     rgba(18, 23, 29, 0.9);
   box-shadow: var(--shadow);
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  cursor: pointer;
 }
 
 .project-card::before {
@@ -560,27 +570,108 @@ dd {
 
 .split-section {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: clamp(30px, 6vw, 92px);
   border-top: 1px solid var(--line);
+}
+
+.filter-panel {
+  max-width: 980px;
+}
+
+.filter-panel summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(183, 196, 210, 0.22);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.filter-panel summary::marker {
+  color: var(--gold);
+}
+
+.filter-panel summary .eyebrow {
+  margin: 0;
+}
+
+.filter-icon {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(242, 179, 93, 0.48);
+  border-radius: 50%;
+  color: var(--gold);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.filter-search {
+  max-width: 360px;
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--faint);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.filter-search input {
+  width: 100%;
+  border: 1px solid rgba(183, 196, 210, 0.22);
+  border-radius: 999px;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+}
+
+.filter-search input::placeholder {
+  color: var(--faint);
 }
 
 .skill-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 26px 0 0;
+  margin: 14px 0 0;
   padding: 0;
   list-style: none;
 }
 
-.skill-list li {
+.skill-list button {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--muted);
+  font: inherit;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.skill-list button:hover,
+.skill-list button[aria-pressed="true"] {
+  border-color: rgba(242, 179, 93, 0.62);
+  color: var(--gold);
+  background: rgba(242, 179, 93, 0.1);
+}
+
+.project-card.is-hidden {
+  display: none;
+}
+
+.skill-list li.is-hidden {
+  display: none;
 }
 
 .contact-section {

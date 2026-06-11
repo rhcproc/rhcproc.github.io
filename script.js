@@ -13,6 +13,9 @@ const modalCaseStudy = document.querySelector("#modal-case-study");
 const modalSource = document.querySelector("#modal-source");
 const modalPrev = document.querySelector("[data-project-prev]");
 const modalNext = document.querySelector("[data-project-next]");
+const skillFilters = document.querySelector("[data-skill-filters]");
+const skillSearch = document.querySelector("[data-skill-search]");
+const projectGrid = document.querySelector("[data-project-grid]");
 
 let stars = [];
 let width = 0;
@@ -20,85 +23,96 @@ let height = 0;
 let animationFrame = null;
 let currentProjectKey = null;
 let orderedProjectImages = [];
+let orderedProjectImagesReady = Promise.resolve();
+let projectCards = [];
+let projectOrder = [];
+let projects = {};
 
-const projects = {
-  cost: {
-    tags: ["Featured", "Cloud + AI"],
-    title: "Azure Cost Intelligence Console",
-    summary: "A focused command center for discovering spend anomalies, unused resources, and rightsizing opportunities across cloud subscriptions.",
-    details: {
-      Role: "Full-stack engineering",
-      Stack: "Azure, Python, KQL, TypeScript",
-      Result: "Actionable cost reports and prioritized savings"
-    },
-    story: "The project brings cost, utilization, and ownership signals into one readable workflow. It is designed to help a team move from raw cloud spend to a short list of decisions that can actually be acted on.",
-    outcomes: [
-      "Highlights idle and underused resources by subscription.",
-      "Ranks recommendations by estimated savings and effort.",
-      "Produces a clear report for follow-up and governance."
-    ],
-    caseStudy: "#",
-    source: "#"
-  },
-  agents: {
-    tags: ["Project 02", "Agents"],
-    title: "Foundry Agent Evaluation Lab",
-    summary: "A repeatable evaluation workflow for hosted AI agents, including test datasets, scoring runs, and prompt iteration notes.",
-    details: {
-      Role: "AI systems engineer",
-      Stack: "Azure AI Foundry, Docker, YAML",
-      Result: "Repeatable agent quality checks before release"
-    },
-    story: "This lab treats agent behavior as something measurable. It keeps evaluation data, scoring configuration, and iteration notes close together so every prompt or tool change can be compared against earlier runs.",
-    outcomes: [
-      "Creates a repeatable loop for prompt and tool changes.",
-      "Keeps datasets and scoring configuration easy to audit.",
-      "Makes regression checks visible before deployment."
-    ],
-    caseStudy: "#",
-    source: "#"
-  },
-  portfolio: {
-    tags: ["Project 03", "Web"],
-    title: "Operations Portfolio Site",
-    summary: "A fast static GitHub Pages site with cinematic visuals, structured project cards, and direct paths to contact and source code.",
-    details: {
-      Role: "Frontend design and build",
-      Stack: "HTML, CSS, JavaScript",
-      Result: "A polished buildless portfolio for GitHub Pages"
-    },
-    story: "The site keeps the first screen atmospheric, then makes the work easy to scan through large cards. Each modal gives enough detail for a visitor to understand the problem, contribution, and result.",
-    outcomes: [
-      "Loads as plain static files on GitHub Pages.",
-      "Uses modal detail views without adding a framework.",
-      "Keeps project information structured and easy to update."
-    ],
-    caseStudy: "#",
-    source: "#"
-  },
-  automation: {
-    tags: ["Project 04", "Automation"],
-    title: "Deployment Runbook System",
-    summary: "A scripted deployment workflow that turns repeated manual steps into clear, auditable commands for shipping services with less drift.",
-    details: {
-      Role: "Platform automation",
-      Stack: "Bash, GitHub Actions, Azure CLI",
-      Result: "Fewer manual release steps and clearer rollback notes"
-    },
-    story: "This project packages release steps into commands and checks that can be run the same way every time. It focuses on reducing ambiguous handoffs and making deployment state visible.",
-    outcomes: [
-      "Documents required release inputs before deployment starts.",
-      "Runs validation checks before changing live resources.",
-      "Captures command output for easier review and rollback."
-    ],
-    caseStudy: "#",
-    source: "#"
+async function loadProjects() {
+  if (window.location.protocol === "file:") {
+    return [];
   }
-};
 
-const projectOrder = Array.from(document.querySelectorAll("[data-project-card]"))
-  .map((card) => card.dataset.projectCard)
-  .filter((projectKey) => projects[projectKey]);
+  try {
+    const response = await fetch("assets/projects/projects.json", { cache: "no-store" });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const projectList = await response.json();
+    return Array.isArray(projectList) ? projectList : [];
+  } catch {
+    return [];
+  }
+}
+
+function normalizeProject(project, index) {
+  const id = project.id || `project-${index + 1}`;
+  const stack = Array.isArray(project.stack) ? project.stack : String(project.stack || "").split(",");
+
+  return {
+    id,
+    category: project.category || "Project",
+    title: project.title || "Untitled Project",
+    summary: project.summary || "",
+    role: project.role || "",
+    stack: stack.map((item) => item.trim()).filter(Boolean),
+    result: project.result || "",
+    story: project.story || "",
+    outcomes: Array.isArray(project.outcomes) ? project.outcomes : [],
+    caseStudy: project.caseStudy || "#",
+    source: project.source || "#"
+  };
+}
+
+function renderProjectCards(projectList) {
+  const normalizedProjects = projectList.map(normalizeProject);
+  projects = Object.fromEntries(normalizedProjects.map((project) => [project.id, project]));
+  projectOrder = normalizedProjects.map((project) => project.id);
+
+  projectGrid.replaceChildren(...normalizedProjects.map((project) => {
+    const article = document.createElement("article");
+    article.className = "project-card";
+    article.dataset.projectCard = project.id;
+
+    article.innerHTML = `
+      <div class="project-meta">
+        <span></span>
+        <span></span>
+      </div>
+      <h3></h3>
+      <p></p>
+      <dl class="project-details">
+        <div>
+          <dt>Role</dt>
+          <dd></dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd></dd>
+        </div>
+      </dl>
+      <div class="project-links">
+        <button type="button" data-open-project="">More detail</button>
+        <a href="#">Source</a>
+      </div>
+    `;
+
+    const meta = article.querySelectorAll(".project-meta span");
+    meta[1].textContent = project.category;
+    article.querySelector("h3").textContent = project.title;
+    article.querySelector("p").textContent = project.summary;
+    article.querySelector(".project-details div:nth-child(1) dd").textContent = project.role;
+    article.querySelector(".project-details div:nth-child(2) dd").textContent = project.stack.join(", ");
+    article.querySelector("[data-open-project]").dataset.openProject = project.id;
+    article.querySelector(".project-links a").href = project.source;
+
+    return article;
+  }));
+
+  projectCards = Array.from(document.querySelectorAll("[data-project-card]"));
+}
 
 function getProjectNumber(projectKey) {
   const projectIndex = projectOrder.indexOf(projectKey);
@@ -147,6 +161,13 @@ function getGitHubContentsUrl() {
 }
 
 async function loadOrderedProjectImages() {
+  const manifestImages = await loadProjectImageManifest();
+
+  if (manifestImages.length > 0) {
+    orderedProjectImages = manifestImages;
+    return;
+  }
+
   const contentsUrl = getGitHubContentsUrl();
 
   if (!contentsUrl) {
@@ -173,20 +194,99 @@ async function loadOrderedProjectImages() {
   }
 }
 
+async function loadProjectImageManifest() {
+  if (window.location.protocol === "file:") {
+    return [];
+  }
+
+  try {
+    const response = await fetch("assets/projects/images.json", { cache: "no-store" });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const filenames = await response.json();
+
+    if (!Array.isArray(filenames)) {
+      return [];
+    }
+
+    return filenames
+      .filter((filename) => typeof filename === "string" && /\.(png|jpe?g|webp)$/i.test(filename))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
+      .map((filename) => ({
+        name: filename,
+        url: `assets/projects/${filename}`
+      }));
+  } catch {
+    return [];
+  }
+}
+
 function getProjectTags(projectKey) {
   const project = projects[projectKey];
-  const categoryTags = project.tags.filter((tag) => !/^Project \d+$/i.test(tag) && tag !== "Featured");
-  return [getProjectNumber(projectKey), ...categoryTags].filter(Boolean);
+  return [getProjectNumber(projectKey), project.category].filter(Boolean);
 }
 
 function renderProjectNumbers() {
-  document.querySelectorAll("[data-project-card]").forEach((card) => {
+  projectCards.forEach((card) => {
     const numberTarget = card.querySelector(".project-meta span:first-child");
     const projectNumber = getProjectNumber(card.dataset.projectCard);
 
     if (numberTarget && projectNumber) {
       numberTarget.textContent = projectNumber;
     }
+  });
+}
+
+function getCardStackKeywords(card) {
+  const project = projects[card.dataset.projectCard];
+  return project?.stack || [];
+}
+
+function renderSkillFilters() {
+  if (!skillFilters) {
+    return;
+  }
+
+  const keywords = [...new Set(projectCards.flatMap(getCardStackKeywords))]
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+  const filters = ["All", ...keywords];
+
+  skillFilters.replaceChildren(...filters.map((keyword) => {
+    const item = document.createElement("li");
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = keyword;
+    button.dataset.skillFilter = keyword;
+    button.setAttribute("aria-pressed", keyword === "All" ? "true" : "false");
+    item.append(button);
+    return item;
+  }));
+}
+
+function applySkillFilter(selectedSkill) {
+  const showAll = selectedSkill === "All";
+
+  projectCards.forEach((card) => {
+    const stackKeywords = getCardStackKeywords(card);
+    const isMatch = showAll || stackKeywords.includes(selectedSkill);
+    card.classList.toggle("is-hidden", !isMatch);
+  });
+
+  skillFilters?.querySelectorAll("button").forEach((button) => {
+    button.setAttribute("aria-pressed", button.dataset.skillFilter === selectedSkill ? "true" : "false");
+  });
+}
+
+function filterSkillButtons(query) {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  skillFilters?.querySelectorAll("li").forEach((item) => {
+    const button = item.querySelector("[data-skill-filter]");
+    const skill = button?.dataset.skillFilter.toLowerCase() || "";
+    item.classList.toggle("is-hidden", normalizedQuery !== "" && !skill.includes(normalizedQuery));
   });
 }
 
@@ -238,7 +338,7 @@ function drawStars() {
   }
 }
 
-function start() {
+function startStarfield() {
   if (animationFrame) {
     cancelAnimationFrame(animationFrame);
   }
@@ -246,11 +346,6 @@ function start() {
   resizeCanvas();
   drawStars();
 }
-
-window.addEventListener("resize", start, { passive: true });
-start();
-renderProjectNumbers();
-const orderedProjectImagesReady = loadOrderedProjectImages();
 
 async function renderProjectModal(projectKey) {
   const project = projects[projectKey];
@@ -276,7 +371,13 @@ async function renderProjectModal(projectKey) {
   modalCaseStudy.href = project.caseStudy;
   modalSource.href = project.source;
 
-  modalDetails.replaceChildren(...Object.entries(project.details).map(([label, value]) => {
+  const details = {
+    Role: project.role,
+    Stack: project.stack.join(", "),
+    Result: project.result
+  };
+
+  modalDetails.replaceChildren(...Object.entries(details).map(([label, value]) => {
     const row = document.createElement("div");
     const term = document.createElement("dt");
     const description = document.createElement("dd");
@@ -332,37 +433,74 @@ function navigateProject(direction) {
   }
 }
 
-document.querySelectorAll("[data-open-project]").forEach((button) => {
-  button.addEventListener("click", () => renderProjectModal(button.dataset.openProject));
-});
+function bindEvents() {
+  projectGrid?.addEventListener("click", (event) => {
+    const sourceLink = event.target.closest("a");
+    const detailButton = event.target.closest("[data-open-project]");
+    const card = event.target.closest("[data-project-card]");
 
-document.querySelectorAll("[data-project-card]").forEach((card) => {
-  card.addEventListener("dblclick", () => renderProjectModal(card.dataset.projectCard));
-});
+    if (detailButton) {
+      renderProjectModal(detailButton.dataset.openProject);
+      return;
+    }
 
-document.querySelector("[data-close-modal]")?.addEventListener("click", () => {
-  projectModal.close();
-});
+    if (sourceLink || !card) {
+      return;
+    }
 
-modalPrev?.addEventListener("click", () => navigateProject(-1));
-modalNext?.addEventListener("click", () => navigateProject(1));
+    renderProjectModal(card.dataset.projectCard);
+  });
 
-projectModal?.addEventListener("click", (event) => {
-  if (event.target === projectModal) {
+  skillFilters?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-skill-filter]");
+
+    if (button) {
+      applySkillFilter(button.dataset.skillFilter);
+    }
+  });
+
+  skillSearch?.addEventListener("input", () => {
+    filterSkillButtons(skillSearch.value);
+  });
+
+  document.querySelector("[data-close-modal]")?.addEventListener("click", () => {
     projectModal.close();
-  }
-});
+  });
 
-document.addEventListener("keydown", (event) => {
-  if (!projectModal?.open) {
-    return;
-  }
+  modalPrev?.addEventListener("click", () => navigateProject(-1));
+  modalNext?.addEventListener("click", () => navigateProject(1));
 
-  if (event.key === "ArrowLeft") {
-    navigateProject(-1);
-  }
+  projectModal?.addEventListener("click", (event) => {
+    if (event.target === projectModal) {
+      projectModal.close();
+    }
+  });
 
-  if (event.key === "ArrowRight") {
-    navigateProject(1);
-  }
-});
+  document.addEventListener("keydown", (event) => {
+    if (!projectModal?.open) {
+      return;
+    }
+
+    if (event.key === "ArrowLeft") {
+      navigateProject(-1);
+    }
+
+    if (event.key === "ArrowRight") {
+      navigateProject(1);
+    }
+  });
+}
+
+async function initialize() {
+  window.addEventListener("resize", startStarfield, { passive: true });
+  startStarfield();
+  bindEvents();
+
+  const projectList = await loadProjects();
+  renderProjectCards(projectList);
+  renderProjectNumbers();
+  renderSkillFilters();
+  orderedProjectImagesReady = loadOrderedProjectImages();
+}
+
+initialize();
