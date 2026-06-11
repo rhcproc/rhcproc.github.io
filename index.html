@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cinematic portfolio by RHCProc, featuring selected engineering projects.">
+    <title>RHCProc | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <canvas class="starfield" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="RHCProc home">
+        <span class="brand-mark"></span>
+        <span>RHCProc</span>
+      </a>
+      <!-- <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav> -->
+    </header>
+
+    <main id="top">
+      <!-- <section class="hero" aria-labelledby="hero-title">
+        <img class="hero-image" src="assets/stellar-hero.png" alt="A cinematic deep-space scene with a luminous black hole accretion disk.">
+        <div class="hero-vignette"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Portfolio / Engineering / Systems</p>
+          <h1 id="hero-title">Building software with orbital precision.</h1>
+          <p class="hero-copy">
+            A selected portfolio of products, automation, and cloud systems designed to feel clear,
+            resilient, and ready for real users.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">View Projects</a>
+            <a class="button secondary" href="#contact">Start a Conversation</a>
+          </div>
+        </div>
+      </section> -->
+
+      <!-- <section class="intro-band" aria-label="Portfolio highlights">
+        <div class="metric">
+          <span>01</span>
+          <strong>Product Systems</strong>
+          <p>Dashboards, workflows, and interfaces that keep complex work readable.</p>
+        </div>
+        <div class="metric">
+          <span>02</span>
+          <strong>Cloud Automation</strong>
+          <p>Deployments, scripts, and infrastructure patterns built for repeatability.</p>
+        </div>
+        <div class="metric">
+          <span>03</span>
+          <strong>AI Tooling</strong>
+          <p>Practical agent, evaluation, and model workflows with measurable behavior.</p>
+        </div>
+      </section> -->
+
+      <section id="projects" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Mission Log</p>
+          <h2>Featured Projects</h2>
+          <p>Large mission cards show the important facts first. Open each card for the deeper project detail.</p>
+        </div>
+
+        <div class="project-grid">
+          
+
+          <article class="project-card" data-project-card="agents">
+            <div class="project-meta">
+              <span>Project 02</span>
+              <span>Agents</span>
+            </div>
+            <h3>Foundry Agent Evaluation Lab</h3>
+            <p>
+              A repeatable evaluation workflow for hosted AI agents, including test datasets,
+              scoring runs, and prompt iteration notes.
+            </p>
+            <dl class="project-details">
+              <div>
+                <dt>Role</dt>
+                <dd>AI systems engineer</dd>
+              </div>
+              <div>
+                <dt>Stack</dt>
+                <dd>Azure AI Foundry, Docker, YAML</dd>
+              </div>
+            </dl>
+            <div class="project-links">
+              <button type="button" data-open-project="agents">More detail</button>
+              <a href="#">Source</a>
+            </div>
+          </article>
+
+          <article class="project-card" data-project-card="portfolio">
+            <div class="project-meta">
+              <span>Project 03</span>
+              <span>Web</span>
+            </div>
+            <h3>Operations Portfolio Site</h3>
+            <p>
+              A fast static GitHub Pages site with cinematic visuals, structured project cards,
+              and direct paths to contact and source code.
+            </p>
+            <dl class="project-details">
+              <div>
+                <dt>Role</dt>
+                <dd>Frontend design and build</dd>
+              </div>
+              <div>
+                <dt>Stack</dt>
+                <dd>HTML, CSS, JavaScript</dd>
+              </div>
+            </dl>
+            <div class="project-links">
+              <button type="button" data-open-project="portfolio">More detail</button>
+              <a href="#">Source</a>
+            </div>
+          </article>
+
+          
+        </div>
+      </section>
+
+      <section id="about" class="section split-section">
+        <div>
+          <p class="eyebrow">Flight Profile</p>
+          <h2>Engineer focused on useful systems.</h2>
+        </div>
+        <div class="about-copy">
+          <p>
+            I work across frontend experience, cloud automation, and AI workflows, with emphasis
+            on systems that are understandable, maintainable, and valuable in production.
+          </p>
+          <ul class="skill-list" aria-label="Core skills">
+            <li>Cloud architecture</li>
+            <li>Automation scripts</li>
+            <li>Agent evaluation</li>
+            <li>Product interfaces</li>
+            <li>Cost optimization</li>
+            <li>Static sites</li>
+          </ul>
+        </div>
+      </section>
+
+      
+    </main>
+
+    <footer class="site-footer">
+      <span>RHCProc Portfolio</span>
+      <span>Built for GitHub Pages</span>
+    </footer>
+
+    <dialog class="project-modal" id="project-modal" aria-labelledby="modal-title">
+      <div class="modal-shell">
+        <button class="modal-close" type="button" data-close-modal aria-label="Close project detail">Close</button>
+        <button class="modal-arrow modal-arrow-left" type="button" data-project-prev aria-label="Previous project">
+          <span aria-hidden="true">&larr;</span>
+        </button>
+        <button class="modal-arrow modal-arrow-right" type="button" data-project-next aria-label="Next project">
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+        <div class="project-meta" id="modal-tags"></div>
+        <h2 id="modal-title"></h2>
+        <p class="modal-summary" id="modal-summary"></p>
+        <figure class="modal-image-frame">
+          <img id="modal-image" src="assets/stellar-hero.png" alt="">
+        </figure>
+        <dl class="project-details modal-details" id="modal-details"></dl>
+        <div class="modal-body">
+          <div>
+            <h3>What it does</h3>
+            <p id="modal-story"></p>
+          </div>
+          <div>
+            <h3>Key outcomes</h3>
+            <ul id="modal-outcomes"></ul>
+          </div>
+        </div>
+        <div class="project-links modal-links">
+          <a id="modal-case-study" href="#">Case Study</a>
+          <a id="modal-source" href="#">Source</a>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
