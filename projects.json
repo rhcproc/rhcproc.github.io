@@ -18,6 +18,7 @@
   "Azure Data Lake Storage Gen2",
   "Azure Functions",
   "Azure Storage",
+  "Azure Key Vault",
   "ELT Pipeline",
   "Bronze-Silver-Gold",
   "Docker",
