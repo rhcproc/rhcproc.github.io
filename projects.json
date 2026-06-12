@@ -1,30 +1,390 @@
 [
+  
   {
-    "id": "agents",
-    "category": "Agents",
-    "title": "Foundry Agent Evaluation Lab",
-    "summary": "A repeatable evaluation workflow for hosted AI agents, including test datasets, scoring runs, and prompt iteration notes.",
-    "role": "AI systems engineer",
-    "stack": ["Azure AI Foundry", "Docker", "YAML"],
-    "result": "Repeatable agent quality checks before release",
-    "image": "assets/projects/00.png",
-    "story": "This lab treats agent behavior as something measurable. It keeps evaluation data, scoring configuration, and iteration notes close together so every prompt or tool change can be compared against earlier runs.",
-    "outcomes": [
-      "Creates a repeatable loop for prompt and tool changes.",
-      "Keeps datasets and scoring configuration easy to audit.",
-      "Makes regression checks visible before deployment."
-    ],
-    "links": [
-      {
-        "name": "Case Study",
-        "url": "#"
-      },
-      {
-        "name": "Source",
-        "url": "#"
-      }
-    ]
-  },
+  "id": "crypto-trading-platform",
+  "category": "FinTech",
+  "title": "Automated Cryptocurrency Trading & Analytics Platform",
+  "summary": "An ongoing quantitative trading platform that collects market data, performs technical analysis, stores historical datasets in a cloud data lake, and executes automated trading strategies through exchange APIs.",
+  "role": "Designer, Developer, and Quantitative Researcher",
+  "stack": [
+  "Python",
+  "Pandas",
+  "NumPy",
+  "Scikit-Learn",
+  "XGBoost",
+  "LightGBM",
+  "Technical Analysis",
+  "Bybit API",
+  "Azure Data Lake Storage Gen2",
+  "Azure Functions",
+  "Azure Storage",
+  "ELT Pipeline",
+  "Bronze-Silver-Gold",
+  "Docker",
+  "GitHub Actions"
+],
+  "result": "Ongoing development of a cloud-native trading and analytics platform for strategy research and automated execution.",
+  "image": "assets/projects/202601.png",
+  "story": "This project focuses on building an end-to-end cryptocurrency trading platform that combines automated data collection, cloud-based analytics, technical indicator generation, and automated order execution. Market data is collected from cryptocurrency exchanges and stored in Azure Data Lake using ELT pipelines. Trading signals are generated using moving averages, stochastic indicators, and other technical analysis techniques, while automated execution is performed through exchange APIs. The platform is continuously evolving as a research environment for quantitative trading strategies and cloud-based financial data engineering.",
+  "outcomes": [
+    "Built automated cryptocurrency data collection pipelines using exchange APIs.",
+    "Designed ELT workflows for storing and processing market data in Azure Data Lake.",
+    "Implemented technical indicators including moving averages and stochastic oscillators.",
+    "Developed automated buy and sell execution through Bybit APIs.",
+    "Integrated cloud infrastructure for strategy testing and historical data analysis.",
+    "Continuing to expand quantitative models and trading strategy evaluation."
+  ],
+  "links": [
+    {
+      "name": "PyPI Package - ezbybit",
+      "url": "https://pypi.org/project/ezbybit/"
+    },
+    {
+      "name": "PyPI Package - cozycosmos",
+      "url": "https://pypi.org/project/cozycosmos/"
+    }
+  ]
+},
+  {
+  "id": "python-finance-course",
+  "category": "Education",
+  "title": "Python for Financial Data Analysis and Applications",
+  "summary": "Designed and delivered a university-level course covering Python programming, data analysis, machine learning, cryptocurrency analytics, and cloud computing for finance applications.",
+  "role": "Lecturer & Course Designer",
+  "stack": [
+    "Python",
+    "Pandas",
+    "Scikit-Learn",
+    "Matplotlib",
+    "NumPy",
+    "Jupyter",
+    "YFinance",
+    "Azure Functions",
+    "Azure Cosmos DB",
+    "Azure Key Vault",
+    "Machine Learning"
+  ],
+  "result": "Published as an open educational course through KOCW and delivered to undergraduate students at Hanseo University.",
+  "image": "assets/projects/202503.png",
+  "story": "I developed and taught a comprehensive Python-based financial data analysis course at Hanseo University. The curriculum covered Python fundamentals, data manipulation with Pandas, machine learning using Scikit-Learn, financial market analysis, cryptocurrency data collection, exploratory data analysis, clustering, classification, cloud computing, and practical software development. The course emphasized hands-on programming and real-world financial datasets, enabling students to build end-to-end analytics workflows.",
+  "outcomes": [
+    "Designed a 15-week university curriculum covering Python, machine learning, and financial analytics.",
+    "Created lecture materials, coding exercises, examinations, and practical assignments.",
+    "Taught data analysis using Pandas, Scikit-Learn, and financial datasets.",
+    "Introduced cryptocurrency APIs, quantitative analysis, and technical indicators.",
+    "Delivered practical cloud computing labs using Azure Functions, Cosmos DB, and Key Vault.",
+    "Published the course through KOCW for public access and educational reuse."
+  ],
+  "links": [
+    {
+      "name": "KOCW Course",
+      "url": "http://www.kocw.net/home/cview.do?cid=0ad9d7f7e145ae9f"
+    }
+  ]
+},
+  {
+  "id": "ozone-prediction",
+  "category": "AI",
+  "title": "Ozone Concentration Prediction with Temporal Clustering and ANN",
+  "summary": "A machine learning framework that combines K-Means temporal clustering and artificial neural networks to improve ozone trend prediction while reducing training data requirements.",
+  "role": "Researcher, Data Scientist, and Author",
+  "stack": [
+    "Python",
+    "Scikit-Learn",
+    "Pandas",
+    "NumPy",
+    "K-Means",
+    "Artificial Neural Network (ANN)",
+    "Matplotlib",
+    "Seaborn",
+    "Plotly",
+    "PyTorch",
+    "Jupyter",
+    "Colab"
+  ],
+  "result": "Published in Earth Science Informatics (2025) with up to 4% higher accuracy while reducing training data volume by approximately 30%.",
+  "image": "assets/projects/202405.png",
+  "story": "This research investigated ozone concentration prediction in Seoul using a novel combination of time-based K-Means clustering and artificial neural networks. Air quality data collected from 25 districts of Seoul was first segmented into temporal clusters based on ozone behavior patterns. Separate ANN models were then trained on each cluster, reducing the amount of training data while preserving prediction performance. The proposed framework improved both computational efficiency and prediction accuracy compared with conventional machine learning approaches.",
+  "outcomes": [
+    "Collected and analyzed ozone and air-quality data from 25 districts in Seoul.",
+    "Developed a temporal clustering approach using K-Means to segment ozone patterns.",
+    "Built ANN classification models for ozone trend prediction.",
+    "Reduced training data requirements by approximately 30%.",
+    "Achieved 3–4% higher accuracy and F1-score compared with baseline approaches.",
+    "Published as a first-author journal article in Earth Science Informatics (2025)."
+  ],
+  "links": [
+    {
+      "name": "Publication",
+      "url": "https://doi.org/10.1007/s12145-024-01676-x"
+    }
+  ]
+},
+  {
+  "id": "web3-ecosystem",
+  "category": "Blockchain",
+  "title": "Web3 Staking & NFT Platform",
+  "summary": "A full-stack Web3 ecosystem featuring ERC20 token staking, NFT minting, reward distribution, and blockchain interaction tools built on Ethereum.",
+  "role": "Full-Stack and Blockchain Developer & Research Engineer (Alocados Inc.)",
+  "stack": [
+    "Solidity",
+    "Ethereum",
+    "ERC20",
+    "ERC721",
+    "React",
+    "TypeScript",
+    "Web3.js",
+    "Web3.py",
+    "Ethers.js",
+    "Python",
+    "FastAPI",
+    "Hardhat",
+    "Forge",
+    "AWS S3",
+    "CloudFront",
+    "GitHub Actions"
+  ],
+  "result": "Developed staking contracts, NFT minting infrastructure, and testing platforms while researching reward optimization and Web3 user experiences.",
+  "image": "assets/projects/202210.png",
+  "story": "This project explored the development of a complete Web3 ecosystem consisting of ERC20 staking contracts, NFT minting services, reward distribution mechanisms, and blockchain-enabled web applications. The staking platform provided flexible staking and withdrawal functionality, reward calculation models, APR estimation, and claim processing. The NFT platform automated artwork generation and metadata creation while providing a minting website integrated with MetaMask and Ethereum smart contracts. To support development and testing, React- and Python-based contract interaction tools were created and deployed through AWS infrastructure.",
+  "outcomes": [
+    "Developed ERC20 staking smart contracts with deposit, withdrawal, claim, and reward distribution functions.",
+    "Designed reward algorithms to improve fairness and prevent short-term staking exploitation.",
+    "Researched and analyzed production staking implementations including ApeCoin staking mechanisms.",
+    "Built React and Python testing platforms for smart contract interaction using Web3.js and Web3.py.",
+    "Created NFT minting infrastructure based on ERC721 standards and MetaMask integration.",
+    "Automated NFT image and metadata generation using Python and Pillow.",
+    "Deployed frontend applications through AWS S3, CloudFront, and GitHub Actions CI/CD pipelines."
+  ],
+  "links": [
+    {
+      "name": "OpenSea Collection",
+      "url": "https://opensea.io/collection/cryptovincent"
+    }
+  ]
+},
+  {
+  "id": "zkp-smart-home",
+  "category": "Blockchain",
+  "title": "Blockchain-Based Smart Home Authentication with Zero-Knowledge Proofs",
+  "summary": "A secure smart home authentication framework that combines Ethereum smart contracts, public-key infrastructure, and zero-knowledge proofs to provide privacy-preserving device authentication.",
+  "role": "Project Leader & Security Researcher",
+  "stack": [
+    "Ethereum",
+    "Solidity",
+    "Hardhat",
+    "Zero-Knowledge Proof",
+    "PKI",
+    "Python",
+    "AWS EC2",
+    "Raspberry Pi",
+    "IoT"
+  ],
+  "result": "Designed and validated a privacy-preserving authentication mechanism that improved key management and enhanced resistance against identity forgery attacks.",
+  "image": "assets/projects/202110.png",
+  "story": "This research project explored how blockchain technology and zero-knowledge proofs can be applied to smart home environments. The system connected IoT devices through an EC2-based gateway and used Ethereum smart contracts to manage user public keys. During authentication, users proved ownership of credentials without exposing sensitive information, while devices verified identities through blockchain records. The proposed framework improved authentication security, reduced key management complexity, and protected user privacy compared with conventional blockchain-based authentication approaches.",
+  "outcomes": [
+    "Designed a blockchain-based authentication architecture for smart home environments.",
+    "Implemented Ethereum smart contracts for decentralized public-key management.",
+    "Applied zero-knowledge proofs to authenticate users without revealing sensitive credentials.",
+    "Integrated IoT devices and Raspberry Pi gateways with blockchain infrastructure.",
+    "Demonstrated enhanced security against public-key forgery and identity impersonation attacks."
+  ],
+  "links": [
+    {
+      "name": "Publication",
+      "url": "https://journals.sagepub.com/doi/10.1177/00202940221105855"
+    }
+  ]
+},
+  {
+  "id": "mccheyne-platform",
+  "category": "Cloud",
+  "title": "Serverless Bible Reading Platform",
+  "summary": "A cloud-native web platform that helps users follow the McCheyne Bible reading plan through a scalable, low-cost serverless architecture on AWS.",
+  "role": "Project Lead & Full-Stack Developer",
+  "stack": [
+    "Python",
+    "FastAPI",
+    "AWS SAM",
+    "AWS Lambda",
+    "API Gateway",
+    "DynamoDB",
+    "CloudFront",
+    "Route 53",
+    "GitHub Actions"
+  ],
+  "result": "Reduced infrastructure costs while improving scalability by migrating from EC2-based hosting to a fully serverless AWS architecture.",
+  "image": "assets/projects/202206.png",
+  "story": "I designed, developed, and operated a web platform that allows users to follow the McCheyne Bible reading plan and access daily reading schedules. The project initially ran on AWS EC2 but faced cost-efficiency challenges due to low traffic volumes. To improve scalability and reduce operational expenses, I redesigned the architecture using AWS Lambda, API Gateway, DynamoDB, and CloudFront. The resulting platform became easier to maintain, automatically scaled with demand, and significantly reduced hosting costs.",
+  "outcomes": [
+    "Built and maintained a public web platform for Bible reading schedules.",
+    "Designed a serverless AWS architecture using Lambda and DynamoDB.",
+    "Reduced infrastructure costs by replacing EC2-based hosting.",
+    "Implemented automated deployment pipelines using GitHub Actions.",
+    "Improved scalability and operational simplicity through managed cloud services."
+  ],
+  "links": [
+  ]
+},
+  {
+  "id": "pm25-prediction",
+  "category": "AI",
+  "title": "Deep Learning-Based PM2.5 Prediction Model",
+  "summary": "A machine learning framework that predicts fine dust (PM2.5) concentration by combining ANN and LSTM models to capture both spatial and temporal environmental patterns.",
+  "role": "Project Leader & Machine Learning Engineer",
+  "stack": [
+    "Python",
+    "Matplotlib",
+    "Pandas",
+    "Scikit-Learn",
+    "TensorFlow",
+    "ANN",
+    "LSTM"
+  ],
+  "result": "Improved PM2.5 prediction performance by selecting the most effective model according to regional and temporal characteristics.",
+  "image": "assets/projects/202101.png",
+  "story": "This project focused on predicting PM2.5 concentration levels in Seoul using deep learning techniques. Environmental and meteorological data were collected from multiple regions separated by the Han River and processed through a machine learning pipeline consisting of data collection, preprocessing, feature engineering, model training, evaluation, and prediction. By comparing ANN and LSTM models across different regions and time periods, we identified situations where each model performed best and developed a hybrid prediction strategy that leveraged their complementary strengths.",
+  "outcomes": [
+    "Built end-to-end PM2.5 prediction pipelines using environmental and weather data.",
+    "Compared ANN and LSTM models using hourly F1-score performance analysis.",
+    "Identified regional and temporal patterns affecting prediction accuracy.",
+    "Developed a hybrid ANN+LSTM approach to improve forecasting performance.",
+    "Demonstrated higher prediction accuracy than single-model approaches."
+  ],
+  "links": [
+    {
+      "name": "Publication",
+      "url": "https://doi.org/10.3390/ijerph18136801"
+    }
+  ]
+},
+  {
+  "id": "secure-message-app",
+  "category": "Security",
+  "title": "Secure Message Encryption & Decryption Mobile App",
+  "summary": "A mobile application for securely storing, encrypting, and decrypting sensitive text messages using password-based cryptography and account-based access control.",
+  "role": "Project Lead & Full-Stack Developer",
+  "stack": [
+    "Ionic",
+    "Angular",
+    "TypeScript",
+    "SHA-256",
+    "Cryptography",
+    "Mobile Development",
+    "ECC"
+  ],
+  "result": "Delivered a mobile-first encrypted message vault with account management, password protection, and encrypted content auditing.",
+  "image": "assets/projects/202003.png",
+  "story": "This project was designed to help users securely store sensitive text information on mobile devices. Users can create accounts, manage encrypted message cards, and decrypt content using a password established during registration. The application provides encryption metadata, password hint management, account settings, and access history to improve both security and usability.",
+  "outcomes": [
+    "Developed a secure mobile application for text encryption and decryption.",
+    "Implemented password-based encryption and account authentication.",
+    "Provided encrypted message management through secure card-based storage.",
+    "Tracked recent decryption activity for auditing and security awareness.",
+    "Enabled account management, password updates, and password hint functionality."
+  ],
+  "links": [
+  ]
+},
+  {
+  "id": "python-korea-seminar",
+  "category": "Community",
+  "title": "Python Korea Seminar: Building Web Applications with Tornado",
+  "summary": "Presented a practical seminar for the Python Korea community, demonstrating how to build asynchronous web applications using Tornado through 12 hands-on examples.",
+  "role": "Speaker and Content Creator",
+  "stack": [
+    "Python",
+    "Tornado",
+    "MongoDB",
+    "Motor",
+    "Jinja2",
+    "AJAX",
+    "CryptoJS",
+    "Template Rendering"
+  ],
+  "result": "Delivered a community seminar showcasing modern web development patterns, asynchronous programming, and real-world Tornado applications.",
+  "image": "assets/projects/201703.png",
+  "story": "As an active member of the Python Korea community, I prepared and delivered a technical seminar focused on developing web applications with the Tornado framework. The presentation included 12 practical examples ranging from basic page rendering and user authentication to AJAX interactions, encryption, and asynchronous database operations using MongoDB Motor. The goal was to provide developers with hands-on examples that could be directly applied to real-world web projects.",
+  "outcomes": [
+    "Presented 12 practical Tornado web application examples.",
+    "Demonstrated asynchronous programming using MongoDB Motor.",
+    "Showed AJAX-based real-time client-server interactions.",
+    "Explained user authentication, registration, and session management.",
+    "Shared reusable educational material with the Python Korea community."
+  ],
+  "links": [
+    {
+      "name": "Presentation",
+      "url": "https://speakerdeck.com/spritecodej/junbeom-park"
+    }
+  ]
+},
+  {
+  "id": "satellite-monitoring",
+  "category": "Aerospace",
+  "title": "Satellite Data Collection & Monitoring Platform",
+  "summary": "A real-time platform for collecting, processing, and monitoring satellite navigation data from ground stations and operational servers.",
+  "role": "Software Engineer (Python & C++) / team leader",
+  "stack": [
+    "C++",
+    "Python",
+    "MFC",
+    "MySQL",
+    "Windows Message Queue",
+    "Redmine API",
+    "SVN",
+    "Tornado",
+    "Semantic UI"
+  ],
+  "result": "Improved monitoring reliability and reduced operational workload through automation and queue-based processing.",
+  "image": "assets/projects/201803.png",
+  "story": "At GISYSTEM, I developed and maintained backend servers responsible for collecting satellite navigation data, processing telemetry streams, and delivering operational monitoring services. I also built automation tools for log analysis and issue management. To solve performance bottlenecks caused by sub-second data updates, I implemented a Windows Message Queue architecture that enabled stable and sequential event processing across monitoring systems.",
+  "outcomes": [
+    "Maintained real-time satellite data collection and processing servers.",
+    "Automated log analysis and issue tracking using Python and Redmine API.",
+    "Improved monitoring system stability through message queue architecture.",
+    "Supported operational dashboards for satellite ground station monitoring.",
+    "Reduced manual troubleshooting and maintenance effort."
+  ],
+  "links": [
+    {
+      "name": "Project Details",
+      "url": "https://csa.cwip.or.kr/kangso_biz/kangso.php?cp_no=142"
+    }
+  ]
+},
+{
+  "id": "blockchain-integrity",
+  "category": "Blockchain",
+  "title": "BAP@Y – Blockchain-Based Data Integrity Verification",
+  "summary": "An award-winning blockchain solution that verifies digital document integrity using cryptographic hashes, public-key encryption, and immutable blockchain records.",
+  "role": "Blockchain developer and team member",
+  "stack": [
+    "Blockchain",
+    "SHA-256",
+    "Public Key Cryptography",
+    "JSON",
+    "Python",
+    "Database"
+  ],
+  "result": "Won Excellence Award at the IBK–KISA FinTech Blockchain Hackathon",
+  "image": "assets/projects/201603.png",
+  "story": "BAP@Y was developed for the IBK–KISA FinTech Blockchain Hackathon to provide a secure and scalable method for verifying the integrity of digital documents. Instead of storing sensitive files directly on-chain, the system stores cryptographic metadata, encrypted verification information, and file hashes on a blockchain while retaining original files in conventional storage. During verification, blockchain records are retrieved, signatures are validated, and hashes are compared against the original document to detect tampering.",
+  "outcomes": [
+    "Received the Excellence Award at the IBK–KISA FinTech Blockchain Hackathon (2016).",
+    "Implemented blockchain-based proof of data integrity using cryptographic hashes.",
+    "Separated large file storage from blockchain metadata for practical scalability.",
+    "Enabled tamper detection without exposing original document contents.",
+    "Provided an auditable verification workflow using blockchain transaction records."
+  ],
+  "links": [
+    {
+      "name": "News Article",
+      "url": "https://news.nate.com/view/20160711n29604"
+    }
+  ]
+},
   {
   "id": "infusion-pump-monitoring",
   "category": "Healthcare IoT",
@@ -38,7 +398,10 @@
     "Monitoring System",
     "Windows",
     "SQL",
-    "Medical IoT"
+    "Medical IoT",
+    "Semantic UI",
+    "Tornado",
+    "FastAPI"
   ],
   "result": "Successfully designed and implemented a monitoring system capable of tracking infusion pump status, alarms, network connectivity, and operational history across multiple medical devices.",
   "story": "The project focused on improving operational visibility and patient safety for infusion pumps used in hospitals. The platform provided real-time monitoring, alarm notifications, usage history tracking, user management, and reporting functions. Additional tools were developed to verify network connectivity and device communication between infusion pumps and the monitoring server.",
@@ -90,10 +453,6 @@
     "Developed a browser-based interface for encrypted communication."
   ],
   "links": [
-    {
-      "name": "Project Details",
-      "url": "#"
-    }
   ]
 },
   {
@@ -106,6 +465,7 @@
       "Python",
       "Hadoop",
       "MapReduce",
+      "Algorithm Suggestion",
       "K-Anonymity",
       "L-Diversity",
       "T-Closeness"
@@ -133,7 +493,15 @@
     "title": "Movie Audience Prediction Competition",
     "summary": "Built machine learning models to forecast movie audience numbers using historical box-office and movie-related data.",
     "role": "Project Leader & Data Scientist (Solo Project)",
-    "stack": ["Python", "Pandas", "Scikit-Learn", "PostgreSQL"],
+    "stack": [
+      "Python", 
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Scikit-Learn",
+      "Random Forest",
+      "Ensemble Learning",
+      "PostgreSQL"],
     "result": "Received Encouragement Award in a national big data analytics competition.",
     "image": "assets/projects/201312.png",
     "story": "Participated in a national data analytics competition hosted by the National Information Society Agency (South Korea). Designed a data pipeline for collection, preprocessing, storage, and predictive modeling. Evaluated multiple regression models and implemented iterative forecasting to predict audience demand over multiple days.",

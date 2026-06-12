@@ -118,6 +118,22 @@ function renderProjectCards(projectList) {
       </div>
     `;
 
+    if (project.image) {
+      const cardThumb = document.createElement("figure");
+      const cardImage = document.createElement("img");
+
+      cardThumb.className = "project-card-thumb";
+      cardImage.src = project.image;
+      cardImage.alt = `${project.title} project preview.`;
+      cardImage.loading = "lazy";
+      cardImage.decoding = "async";
+      cardImage.onerror = () => {
+        cardThumb.remove();
+      };
+      cardThumb.append(cardImage);
+      article.prepend(cardThumb);
+    }
+
     const meta = article.querySelectorAll(".project-meta span");
     meta[1].textContent = project.category;
     article.querySelector("h3").textContent = project.title;
