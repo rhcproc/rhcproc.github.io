@@ -9,8 +9,7 @@ const modalImage = document.querySelector("#modal-image");
 const modalDetails = document.querySelector("#modal-details");
 const modalStory = document.querySelector("#modal-story");
 const modalOutcomes = document.querySelector("#modal-outcomes");
-const modalCaseStudy = document.querySelector("#modal-case-study");
-const modalSource = document.querySelector("#modal-source");
+const modalLinks = document.querySelector("#modal-links");
 const modalPrev = document.querySelector("[data-project-prev]");
 const modalNext = document.querySelector("[data-project-next]");
 const skillFilters = document.querySelector("[data-skill-filters]");
@@ -23,8 +22,6 @@ let width = 0;
 let height = 0;
 let animationFrame = null;
 let currentProjectKey = null;
-let orderedProjectImages = [];
-let orderedProjectImagesReady = Promise.resolve();
 let projectCards = [];
 let projectOrder = [];
 let projects = {};
@@ -50,9 +47,27 @@ async function loadProjects() {
   }
 }
 
+function normalizeProjectLinks(project) {
+  if (Array.isArray(project.links)) {
+    return project.links
+      .filter((link) => link && typeof link === "object")
+      .map((link) => ({
+        name: String(link.name || "").trim(),
+        url: String(link.url || "").trim()
+      }))
+      .filter((link) => link.name && link.url);
+  }
+
+  return [
+    { name: "Case Study", url: project.caseStudy },
+    { name: "Source", url: project.source }
+  ].filter((link) => link.url);
+}
+
 function normalizeProject(project, index) {
   const id = project.id || `project-${index + 1}`;
   const stack = Array.isArray(project.stack) ? project.stack : String(project.stack || "").split(",");
+  const links = normalizeProjectLinks(project);
 
   return {
     id,
@@ -64,8 +79,9 @@ function normalizeProject(project, index) {
     result: project.result || "",
     story: project.story || "",
     outcomes: Array.isArray(project.outcomes) ? project.outcomes : [],
-    caseStudy: project.caseStudy || "#",
-    source: project.source || "#"
+    image: project.image || "",
+    links,
+    source: links.find((link) => link.name.toLowerCase() === "source")?.url || links[0]?.url || "#"
   };
 }
 
@@ -98,7 +114,7 @@ function renderProjectCards(projectList) {
       </dl>
       <div class="project-links">
         <button type="button" data-open-project="">More detail</button>
-        <a href="#">Source</a>
+        <a href="#"></a>
       </div>
     `;
 
@@ -124,107 +140,20 @@ function getProjectNumber(projectKey) {
 
 function applyProjectImage(projectKey) {
   const project = projects[projectKey];
-  const projectIndex = projectOrder.indexOf(projectKey);
 
-  if (projectIndex === -1) {
-    modalImage.src = "assets/stellar-hero.png";
-    modalImage.alt = `${project.title} project preview.`;
-    return;
-  }
-
-  const orderedImage = orderedProjectImages[projectIndex];
-
-  if (orderedImage) {
+  if (project?.image) {
     modalImage.onerror = () => {
       modalImage.onerror = null;
       modalImage.src = "assets/stellar-hero.png";
     };
     modalImage.alt = `${project.title} project preview.`;
-    modalImage.src = orderedImage.url;
+    modalImage.src = project.image;
     return;
   }
 
   modalImage.onerror = null;
-  modalImage.alt = `${project.title} project preview.`;
+  modalImage.alt = project ? `${project.title} project preview.` : "Project preview.";
   modalImage.src = "assets/stellar-hero.png";
-}
-
-function getGitHubContentsUrl() {
-  const hostParts = window.location.hostname.split(".");
-  const isGitHubPages = window.location.hostname.endsWith(".github.io");
-
-  if (!isGitHubPages || hostParts.length < 3) {
-    return null;
-  }
-
-  const owner = hostParts[0];
-  const firstPathSegment = window.location.pathname.split("/").filter(Boolean)[0];
-  const repo = firstPathSegment || `${owner}.github.io`;
-  return `https://api.github.com/repos/${owner}/${repo}/contents/assets/projects`;
-}
-
-async function loadOrderedProjectImages() {
-  const manifestImages = await loadProjectImageManifest();
-
-  if (manifestImages.length > 0) {
-    orderedProjectImages = manifestImages;
-    return;
-  }
-
-  const contentsUrl = getGitHubContentsUrl();
-
-  if (!contentsUrl) {
-    return;
-  }
-
-  try {
-    const response = await fetch(contentsUrl, { headers: { Accept: "application/vnd.github+json" } });
-
-    if (!response.ok) {
-      return;
-    }
-
-    const files = await response.json();
-    orderedProjectImages = files
-      .filter((file) => file.type === "file" && /\.(png|jpe?g|webp)$/i.test(file.name))
-      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" }))
-      .map((file) => ({
-        name: file.name,
-        url: file.download_url
-      }));
-  } catch {
-    orderedProjectImages = [];
-  }
-}
-
-async function loadProjectImageManifest() {
-  if (window.location.protocol === "file:") {
-    return [];
-  }
-
-  try {
-    const response = await fetch("assets/projects/images.json", { cache: "no-store" });
-
-    if (!response.ok) {
-      return [];
-    }
-
-    const filenames = await response.json();
-
-    if (!Array.isArray(filenames)) {
-      return [];
-    }
-
-    return filenames
-      .filter((filename) => typeof filename === "string" && /\.(png|jpe?g|webp)$/i.test(filename))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }))
-      .map((filename) => ({
-        name: filename,
-        url: `assets/projects/${filename}`
-      }));
-  } catch {
-    return [];
-  }
 }
 
 function getProjectTags(projectKey) {
@@ -410,8 +339,6 @@ async function renderProjectModal(projectKey) {
     return;
   }
 
-  await orderedProjectImagesReady;
-
   currentProjectKey = projectKey;
 
   modalTags.replaceChildren(...getProjectTags(projectKey).map((tag) => {
@@ -424,8 +351,18 @@ async function renderProjectModal(projectKey) {
   modalSummary.textContent = project.summary;
   applyProjectImage(projectKey);
   modalStory.textContent = project.story;
-  modalCaseStudy.href = project.caseStudy;
-  modalSource.href = project.source;
+
+  if (modalLinks) {
+    modalLinks.replaceChildren(...project.links.map((link) => {
+      const anchor = document.createElement("a");
+      anchor.href = link.url;
+      anchor.textContent = link.name;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      return anchor;
+    }));
+    modalLinks.hidden = project.links.length === 0;
+  }
 
   const details = {
     Role: project.role,
@@ -450,7 +387,10 @@ async function renderProjectModal(projectKey) {
   }));
 
   updateModalNavigation();
-  projectModal.showModal();
+
+  if (!projectModal.open) {
+    projectModal.showModal();
+  }
 }
 
 function getAdjacentProject(direction) {
@@ -556,7 +496,6 @@ async function initialize() {
   renderProjectCards(projectList);
   renderProjectNumbers();
   renderSkillFilters();
-  orderedProjectImagesReady = loadOrderedProjectImages();
 }
 
 initialize();

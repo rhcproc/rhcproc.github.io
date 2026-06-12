@@ -7,30 +7,148 @@
     "role": "AI systems engineer",
     "stack": ["Azure AI Foundry", "Docker", "YAML"],
     "result": "Repeatable agent quality checks before release",
+    "image": "assets/projects/00.png",
     "story": "This lab treats agent behavior as something measurable. It keeps evaluation data, scoring configuration, and iteration notes close together so every prompt or tool change can be compared against earlier runs.",
     "outcomes": [
       "Creates a repeatable loop for prompt and tool changes.",
       "Keeps datasets and scoring configuration easy to audit.",
       "Makes regression checks visible before deployment."
     ],
-    "caseStudy": "#",
-    "source": "#"
+    "links": [
+      {
+        "name": "Case Study",
+        "url": "#"
+      },
+      {
+        "name": "Source",
+        "url": "#"
+      }
+    ]
   },
   {
-    "id": "portfolio",
-    "category": "Web",
-    "title": "Operations Portfolio Site",
-    "summary": "A fast static GitHub Pages site with cinematic visuals, structured project cards, and direct paths to contact and source code.",
-    "role": "Frontend design and build",
-    "stack": ["HTML", "CSS", "JavaScript"],
-    "result": "A polished buildless portfolio for GitHub Pages",
-    "story": "The site keeps the first screen atmospheric, then makes the work easy to scan through large cards. Each modal gives enough detail for a visitor to understand the problem, contribution, and result.",
-    "outcomes": [
-      "Loads as plain static files on GitHub Pages.",
-      "Uses modal detail views without adding a framework.",
-      "Keeps project information structured and easy to update."
+  "id": "infusion-pump-monitoring",
+  "category": "Healthcare IoT",
+  "title": "Smart Infusion Pump Monitoring System",
+  "summary": "Developed a centralized monitoring platform for infusion pumps, enabling real-time device tracking, alarm management, usage analytics, and remote monitoring in hospital environments.",
+  "role": "Full-Stack Developer (MEINNTECH Co., Ltd.)",
+  "stack": [
+    "Python",
+    "TCP/IP",
+    "Network Programming",
+    "Monitoring System",
+    "Windows",
+    "SQL",
+    "Medical IoT"
+  ],
+  "result": "Successfully designed and implemented a monitoring system capable of tracking infusion pump status, alarms, network connectivity, and operational history across multiple medical devices.",
+  "story": "The project focused on improving operational visibility and patient safety for infusion pumps used in hospitals. The platform provided real-time monitoring, alarm notifications, usage history tracking, user management, and reporting functions. Additional tools were developed to verify network connectivity and device communication between infusion pumps and the monitoring server.",
+  "outcomes": [
+    "Implemented real-time infusion pump monitoring dashboard.",
+    "Developed alarm management for bubble, occlusion, door-open, and battery alerts.",
+    "Created usage history and reporting modules.",
+    "Built user management and access control features.",
+    "Implemented SMS-based notification services.",
+    "Developed Python-based network diagnostic tools for device communication verification.",
+    "Supported analysis of abnormal device behavior and system health monitoring."
+  ],
+  "features": [
+    "Real-time Pump Status Monitoring",
+    "Alarm Management",
+    "Patient Information Tracking",
+    "Usage Analytics",
+    "Network Monitoring",
+    "User Access Management",
+    "SMS Notifications",
+    "System Health Dashboard"
+  ],
+  "image": "assets/projects/201702.png"
+},
+ {
+  "id": "secure-messaging",
+  "category": "Security",
+  "title": "End-to-End Encrypted Messaging Platform",
+  "summary": "Designed and implemented a web-based secure messaging system using public-key cryptography, lightweight encryption, and secure key exchange mechanisms.",
+  "role": "Security Researcher & Full-Stack Developer (Solo Project)",
+  "stack": [
+    "Python",
+    "ECC",
+    "LEA",
+    "LSH",
+    "MongoDB",
+    "Tornado",
+    "HTML5",
+    "jQuery"
+  ],
+  "result": "Built a prototype E2E messaging platform for the Korea Cryptography Contest.",
+  "image": "assets/projects/201609.png",
+  "story": "Developed a web-based end-to-end encrypted messaging service as part of the Korea Cryptography Contest. The platform implemented secure key exchange, encrypted message transmission, and cryptographic key management using elliptic curve cryptography and lightweight cryptographic algorithms. The system supported secure message storage, transmission, and decryption through a browser-based interface.",
+  "outcomes": [
+    "Designed a complete end-to-end encrypted communication workflow.",
+    "Implemented ECC-based public key exchange and authentication.",
+    "Integrated LEA encryption and LSH hashing algorithms.",
+    "Built secure message and key management using MongoDB.",
+    "Developed a browser-based interface for encrypted communication."
+  ],
+  "links": [
+    {
+      "name": "Project Details",
+      "url": "#"
+    }
+  ]
+},
+  {
+    "id": "privacy-hadoop",
+    "category": "Data Engineering",
+    "title": "Privacy-Preserving Big Data Processing",
+    "summary": "Designed and evaluated privacy-preserving data processing techniques using K-anonymity, L-diversity, and T-closeness on distributed Hadoop environments.",
+    "role": "Researcher & Developer (ETRI)",
+    "stack": [
+      "Python",
+      "Hadoop",
+      "MapReduce",
+      "K-Anonymity",
+      "L-Diversity",
+      "T-Closeness"
     ],
-    "caseStudy": "#",
-    "source": "#"
+    "result": "Published research and validated scalable privacy-preserving analytics on distributed systems.",
+    "image": "assets/projects/201502.png",
+    "story": "Contributed to a national big data privacy project focused on data anonymization and re-identification risk analysis. Implemented core privacy algorithms from scratch, evaluated privacy protection effectiveness, and measured performance using Hadoop-based distributed processing environments.",
+    "outcomes": [
+      "Implemented K-anonymity, L-diversity, and T-closeness algorithms.",
+      "Evaluated re-identification risks in large-scale datasets.",
+      "Built distributed experiments using Hadoop and MapReduce.",
+      "Analyzed scalability and performance under identical workloads.",
+      "Produced peer-reviewed research publication."
+    ],
+    "links": [
+      {
+        "name": "Paper",
+        "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002009404"
+      }
+    ]
+  },
+  {
+    "id": "movie-audience",
+    "category": "Machine Learning",
+    "title": "Movie Audience Prediction Competition",
+    "summary": "Built machine learning models to forecast movie audience numbers using historical box-office and movie-related data.",
+    "role": "Project Leader & Data Scientist (Solo Project)",
+    "stack": ["Python", "Pandas", "Scikit-Learn", "PostgreSQL"],
+    "result": "Received Encouragement Award in a national big data analytics competition.",
+    "image": "assets/projects/201312.png",
+    "story": "Participated in a national data analytics competition hosted by the National Information Society Agency (South Korea). Designed a data pipeline for collection, preprocessing, storage, and predictive modeling. Evaluated multiple regression models and implemented iterative forecasting to predict audience demand over multiple days.",
+    "outcomes": [
+      "Built an end-to-end data processing and prediction workflow.",
+      "Compared multiple machine learning models to improve forecasting performance.",
+      "Implemented multi-step audience prediction using iterative model outputs.",
+      "Received an Encouragement Award in the competition."
+    ],
+    "links": [
+      {
+        "name": "News Article",
+        "url": "https://www.etnews.com/201312180242"
+      }
+    ]
   }
+  
 ]
