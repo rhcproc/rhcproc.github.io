@@ -153,11 +153,7 @@
   "links": [
     {
       "name": "Medium Article",
-      "url": "#"
-    },
-    {
-      "name": "Architecture",
-      "url": "#"
+      "url": "https://medium.com/@ianolpx/amazon-managed-workflow-for-apache-airflow-mwaa-storing-current-stock-prices-using-dynamodb-979fa511c27c"
     }
   ]
 },
