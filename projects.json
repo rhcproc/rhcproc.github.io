@@ -5,7 +5,7 @@
   "category": "FinTech",
   "title": "Automated Cryptocurrency Trading & Analytics Platform",
   "summary": "An ongoing quantitative trading platform that collects market data, performs technical analysis, stores historical datasets in a cloud data lake, and executes automated trading strategies through exchange APIs.",
-  "role": "Designer, Developer, and Quantitative Researcher",
+  "role": "Designer, Developer, and Quantitative Researcher (Solo Project)",
   "stack": [
   "Python",
   "Pandas",
@@ -51,7 +51,7 @@
   "category": "Education",
   "title": "Python for Financial Data Analysis and Applications",
   "summary": "Designed and delivered a university-level course covering Python programming, data analysis, machine learning, cryptocurrency analytics, and cloud computing for finance applications.",
-  "role": "Lecturer & Course Designer",
+  "role": "Lecturer & Course Designer (Solo Project)",
   "stack": [
     "Python",
     "Pandas",
@@ -88,7 +88,7 @@
   "category": "AI",
   "title": "Ozone Concentration Prediction with Temporal Clustering and ANN",
   "summary": "A machine learning framework that combines K-Means temporal clustering and artificial neural networks to improve ozone trend prediction while reducing training data requirements.",
-  "role": "Researcher, Data Scientist, and Author",
+  "role": "Researcher, Data Scientist, and Author (Solo Project)",
   "stack": [
     "Python",
     "Scikit-Learn",
@@ -118,6 +118,46 @@
     {
       "name": "Publication",
       "url": "https://doi.org/10.1007/s12145-024-01676-x"
+    }
+  ]
+},
+{
+  "id": "aws-stock-pipeline",
+  "category": "Data Engineering",
+  "title": "Serverless Stock Data Pipeline with MWAA",
+  "summary": "Built an automated stock market data pipeline using Apache Airflow on AWS MWAA to collect, process, and store market data in DynamoDB.",
+  "role": "Data Engineer (Solo Project)",
+  "stack": [
+    "Python",
+    "Apache Airflow",
+    "AWS MWAA",
+    "DynamoDB",
+    "S3",
+    "CloudFormation",
+    "Boto3",
+    "YFinance",
+    "ETL",
+    "Data Pipeline"
+  ],
+  "result": "Automated scheduled stock data collection and storage through a managed workflow orchestration platform.",
+  "image": "assets/projects/202402.png",
+  "story": "This project explored how Apache Airflow can be used as a cloud-native workflow orchestration platform. Using AWS Managed Workflows for Apache Airflow (MWAA), I designed and deployed a scheduled ETL pipeline that periodically collected stock market data through YFinance, processed the results, and stored them in DynamoDB. The project also included AWS IAM configuration, S3-based configuration management, CloudFormation infrastructure provisioning, and automated DAG deployment.",
+  "outcomes": [
+    "Built scheduled ETL workflows using Apache Airflow.",
+    "Deployed and managed Airflow through AWS MWAA.",
+    "Collected financial market data using YFinance APIs.",
+    "Stored and queried market data in DynamoDB.",
+    "Managed configuration and DAG deployment through S3.",
+    "Provisioned infrastructure using AWS CloudFormation."
+  ],
+  "links": [
+    {
+      "name": "Medium Article",
+      "url": "#"
+    },
+    {
+      "name": "Architecture",
+      "url": "#"
     }
   ]
 },
@@ -203,7 +243,7 @@
   "category": "Cloud",
   "title": "Serverless Bible Reading Platform",
   "summary": "A cloud-native web platform that helps users follow the McCheyne Bible reading plan through a scalable, low-cost serverless architecture on AWS.",
-  "role": "Project Lead & Full-Stack Developer",
+  "role": "Project Lead & Full-Stack Developer (Solo Project)",
   "stack": [
     "Python",
     "FastAPI",

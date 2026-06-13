@@ -2,6 +2,7 @@ const canvas = document.querySelector(".starfield");
 const context = canvas.getContext("2d");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const projectModal = document.querySelector("#project-modal");
+const projectModalShell = document.querySelector(".modal-shell");
 const modalTags = document.querySelector("#modal-tags");
 const modalTitle = document.querySelector("#modal-title");
 const modalSummary = document.querySelector("#modal-summary");
@@ -15,7 +16,9 @@ const modalNext = document.querySelector("[data-project-next]");
 const skillFilters = document.querySelector("[data-skill-filters]");
 const skillSearch = document.querySelector("[data-skill-search]");
 const filterProgress = document.querySelector("[data-filter-progress]");
+const filterCount = document.querySelector("[data-filter-count]");
 const projectGrid = document.querySelector("[data-project-grid]");
+const visibleSkillLimit = 15;
 
 let stars = [];
 let width = 0;
@@ -27,6 +30,8 @@ let projectOrder = [];
 let projects = {};
 let filterProgressTimer = null;
 let filterSettleTimer = null;
+let selectedSkill = "All";
+let skillFiltersExpanded = false;
 
 async function loadProjects() {
   if (window.location.protocol === "file:") {
@@ -193,52 +198,218 @@ function getCardStackKeywords(card) {
   return project?.stack || [];
 }
 
+function getCardsMatchingSkill(skill) {
+  if (skill === "All") {
+    return projectCards;
+  }
+
+  return projectCards.filter((card) => getCardStackKeywords(card).includes(skill));
+}
+
+function getOverlapCount(skill, scopedCards) {
+  if (skill === "All") {
+    return projectCards.length;
+  }
+
+  return scopedCards.filter((card) => getCardStackKeywords(card).includes(skill)).length;
+}
+
+function compareSkillNames(a, b) {
+  return a.localeCompare(b, undefined, { sensitivity: "base" });
+}
+
+function updateFilterCountSummary(matchingCount) {
+  if (!filterCount) {
+    return;
+  }
+
+  const projectLabel = matchingCount === 1 ? "project" : "projects";
+
+  if (selectedSkill === "All") {
+    filterCount.textContent = `Showing all ${matchingCount} ${projectLabel}.`;
+    return;
+  }
+
+  filterCount.textContent = `Showing ${matchingCount} ${projectLabel} overlapping with ${selectedSkill}.`;
+}
+
+function updateSkillOverlapCounts() {
+  const scopedCards = getCardsMatchingSkill(selectedSkill);
+  const skillCounts = new Map();
+
+  skillFilters?.querySelectorAll("[data-skill-filter]").forEach((button) => {
+    const skill = button.dataset.skillFilter;
+    const count = getOverlapCount(skill, scopedCards);
+    const countTarget = button.querySelector("[data-skill-count]");
+    skillCounts.set(skill, count);
+
+    if (countTarget) {
+      countTarget.textContent = count;
+    }
+
+    if (skill === "All") {
+      button.setAttribute("aria-label", `All projects, ${count} total`);
+      return;
+    }
+
+    button.setAttribute("aria-label", `${skill}, ${count} overlapping ${count === 1 ? "project" : "projects"}`);
+  });
+
+  sortSkillFilters(skillCounts);
+  updateSkillFilterVisibility();
+  updateFilterCountSummary(scopedCards.length);
+}
+
+function sortSkillFilters(skillCounts) {
+  if (!skillFilters) {
+    return;
+  }
+
+  const items = Array.from(skillFilters.children);
+  const keywordItems = items.filter((item) => !item.matches("[data-skill-more-item]"));
+  const moreItem = skillFilters.querySelector("[data-skill-more-item]");
+
+  keywordItems.sort((itemA, itemB) => {
+    const skillA = itemA.querySelector("[data-skill-filter]")?.dataset.skillFilter || "";
+    const skillB = itemB.querySelector("[data-skill-filter]")?.dataset.skillFilter || "";
+
+    if (skillA === "All") {
+      return -1;
+    }
+
+    if (skillB === "All") {
+      return 1;
+    }
+
+    const countDelta = (skillCounts.get(skillB) || 0) - (skillCounts.get(skillA) || 0);
+    return countDelta || compareSkillNames(skillA, skillB);
+  });
+
+  skillFilters.append(...keywordItems);
+  if (moreItem) {
+    skillFilters.append(moreItem);
+  }
+  ensureSkillMoreButton();
+}
+
 function renderSkillFilters() {
   if (!skillFilters) {
     return;
   }
 
   const keywords = [...new Set(projectCards.flatMap(getCardStackKeywords))]
-    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+    .sort(compareSkillNames);
   const filters = ["All", ...keywords];
 
   skillFilters.replaceChildren(...filters.map((keyword) => {
     const item = document.createElement("li");
     const button = document.createElement("button");
+    const label = document.createElement("span");
+    const count = document.createElement("span");
+
     button.type = "button";
-    button.textContent = keyword;
     button.dataset.skillFilter = keyword;
     button.setAttribute("aria-pressed", keyword === "All" ? "true" : "false");
+    label.textContent = keyword;
+    count.className = "skill-count";
+    count.dataset.skillCount = "";
+    item.dataset.skillFilterItem = "";
+    button.append(label, count);
     item.append(button);
     return item;
   }));
+
+  ensureSkillMoreButton();
+  updateSkillOverlapCounts();
 }
 
-function applySkillFilter(selectedSkill) {
-  const showAll = selectedSkill === "All";
+function ensureSkillMoreButton() {
+  if (!skillFilters || skillFilters.querySelector("[data-skill-more]")) {
+    return;
+  }
+
+  const item = document.createElement("li");
+  const button = document.createElement("button");
+  const icon = document.createElement("span");
+  const label = document.createElement("span");
+
+  item.dataset.skillMoreItem = "";
+  item.className = "skill-more-item";
+  button.type = "button";
+  button.className = "skill-more-button";
+  button.dataset.skillMore = "";
+  icon.className = "skill-more-icon";
+  icon.textContent = "+";
+  icon.setAttribute("aria-hidden", "true");
+  label.dataset.skillMoreLabel = "";
+  button.append(icon, label);
+  item.append(button);
+  skillFilters.append(item);
+}
+
+function updateSkillFilterVisibility() {
+  if (!skillFilters) {
+    return;
+  }
+
+  const hasSearchQuery = Boolean(skillSearch?.value.trim());
+  const keywordItems = Array.from(skillFilters.querySelectorAll("[data-skill-filter-item]"));
+  const expandableKeywordCount = keywordItems.filter((item) => {
+    const button = item.querySelector("[data-skill-filter]");
+    return button?.dataset.skillFilter !== "All";
+  }).length;
+  const hasOverflowKeywords = expandableKeywordCount > visibleSkillLimit;
+  const hiddenItems = keywordItems.filter((item, index) => {
+    const button = item.querySelector("[data-skill-filter]");
+    const isAllFilter = button?.dataset.skillFilter === "All";
+    const shouldHide = !isAllFilter && !skillFiltersExpanded && !hasSearchQuery && index > visibleSkillLimit;
+    item.classList.toggle("is-collapsed-hidden", shouldHide);
+    return shouldHide;
+  });
+  const moreItem = skillFilters.querySelector("[data-skill-more-item]");
+  const moreLabel = skillFilters.querySelector("[data-skill-more-label]");
+
+  if (!moreItem || !moreLabel) {
+    return;
+  }
+
+  const moreButton = moreItem.querySelector("[data-skill-more]");
+  const moreIcon = moreItem.querySelector(".skill-more-icon");
+
+  if (skillFiltersExpanded) {
+    moreLabel.textContent = "Less";
+    moreIcon.textContent = "-";
+    moreButton?.setAttribute("aria-label", "Show fewer keywords");
+  } else {
+    moreLabel.textContent = `${hiddenItems.length}`;
+    moreIcon.textContent = "+";
+    moreButton?.setAttribute("aria-label", `Show ${hiddenItems.length} more keywords`);
+  }
+
+  moreItem.hidden = hasSearchQuery || !hasOverflowKeywords;
+}
+
+function applySkillFilter(skill) {
   const filterDuration = prefersReducedMotion ? 0 : 380;
+  const matchingCards = getCardsMatchingSkill(skill);
+  const matchingCardSet = new Set(matchingCards);
 
   window.clearTimeout(filterSettleTimer);
   startFilterProgress();
 
-  skillFilters?.querySelectorAll("button").forEach((button) => {
-    button.setAttribute("aria-pressed", button.dataset.skillFilter === selectedSkill ? "true" : "false");
+  skillFilters?.querySelectorAll("[data-skill-filter]").forEach((button) => {
+    button.setAttribute("aria-pressed", button.dataset.skillFilter === skill ? "true" : "false");
   });
 
-  const matchingCards = [];
-
   projectCards.forEach((card) => {
-    const stackKeywords = getCardStackKeywords(card);
-    const isMatch = showAll || stackKeywords.includes(selectedSkill);
+    const isMatch = matchingCardSet.has(card);
 
     card.classList.remove("is-entering");
     card.style.animationDelay = "";
     card.classList.toggle("is-hidden", !isMatch);
-
-    if (isMatch) {
-      matchingCards.push(card);
-    }
   });
+
+  updateSelectedSkill(skill);
 
   void projectGrid?.offsetWidth;
 
@@ -253,6 +424,11 @@ function applySkillFilter(selectedSkill) {
       card.style.animationDelay = "";
     });
   }, filterDuration);
+}
+
+function updateSelectedSkill(skill) {
+  selectedSkill = skill;
+  updateSkillOverlapCounts();
 }
 
 function startFilterProgress() {
@@ -284,11 +460,13 @@ function startFilterProgress() {
 function filterSkillButtons(query) {
   const normalizedQuery = query.trim().toLowerCase();
 
-  skillFilters?.querySelectorAll("li").forEach((item) => {
+  skillFilters?.querySelectorAll("[data-skill-filter-item]").forEach((item) => {
     const button = item.querySelector("[data-skill-filter]");
     const skill = button?.dataset.skillFilter.toLowerCase() || "";
     item.classList.toggle("is-hidden", normalizedQuery !== "" && !skill.includes(normalizedQuery));
   });
+
+  updateSkillFilterVisibility();
 }
 
 function resizeCanvas() {
@@ -346,6 +524,11 @@ function startStarfield() {
 
   resizeCanvas();
   drawStars();
+}
+
+function resetProjectModalScroll() {
+  projectModalShell?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  projectModal?.scrollTo({ top: 0, left: 0, behavior: "auto" });
 }
 
 async function renderProjectModal(projectKey) {
@@ -407,6 +590,8 @@ async function renderProjectModal(projectKey) {
   if (!projectModal.open) {
     projectModal.showModal();
   }
+
+  resetProjectModalScroll();
 }
 
 function getAdjacentProject(direction) {
@@ -464,7 +649,14 @@ function bindEvents() {
   });
 
   skillFilters?.addEventListener("click", (event) => {
+    const moreButton = event.target.closest("[data-skill-more]");
     const button = event.target.closest("[data-skill-filter]");
+
+    if (moreButton) {
+      skillFiltersExpanded = !skillFiltersExpanded;
+      updateSkillFilterVisibility();
+      return;
+    }
 
     if (button) {
       applySkillFilter(button.dataset.skillFilter);
