@@ -1,5 +1,41 @@
 [
-  
+  {
+  "id": "teammaker",
+  "category": "Education Platform",
+  "title": "TeamMaker - Intelligent Team Formation & Classroom Management System",
+  "summary": "A full-stack web application that helps instructors efficiently create balanced student teams, manage workspaces, organize lecture notes, and monitor project groups through an integrated classroom management dashboard.",
+  "role": "Designer, Full-Stack Developer (Solo Project)",
+  "stack": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Tailwind CSS",
+    "REST API",
+    "PostgreSQL",
+    "Prisma ORM",
+    "Authentication",
+    "Responsive UI"
+  ],
+  "result": "Developed a complete classroom management platform that streamlines team formation, workspace administration, and lecture material management for university project-based courses.",
+  "image": "assets/projects/teammaker.png",
+  "story": "TeamMaker was developed to simplify team-based project management in university courses. The platform enables instructors to automatically generate student teams while supporting manual constraints such as fixed pairs and locked teams. Beyond team formation, the system provides workspace management, lecture note publishing, and project dashboards that allow instructors to monitor team composition and classroom activities from a single interface. The application focuses on improving instructor productivity while reducing the administrative effort required for managing collaborative student projects.",
+  "outcomes": [
+    "Designed and implemented a responsive full-stack classroom management system.",
+    "Developed automatic team formation with support for fixed pairs and locked teams.",
+    "Built workspace management features for multiple project classes.",
+    "Implemented lecture note publishing with task management capabilities.",
+    "Created instructor dashboards for monitoring team structures and project statistics.",
+    "Integrated authentication and role-based workspace management.",
+    "Designed an intuitive user interface for efficient classroom administration."
+  ],
+  "links": [
+    {
+      "name": "GitHub Repository",
+      "url": "https://github.com/rhcproc/teammaker"
+    }
+  ]
+},
   {
   "id": "crypto-trading-platform",
   "category": "FinTech",
