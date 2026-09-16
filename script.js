@@ -76,6 +76,7 @@ function normalizeProject(project, index) {
 
   return {
     id,
+    date: project.date || project.image?.match(/(?:^|\/)(\d{6})\./)?.[1] || "",
     category: project.category || "Project",
     title: project.title || "Untitled Project",
     summary: project.summary || "",
@@ -92,6 +93,10 @@ function normalizeProject(project, index) {
 
 function renderProjectCards(projectList) {
   const normalizedProjects = projectList.map(normalizeProject);
+  // Number chronologically, independently of card order and active filters.
+  [...normalizedProjects]
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
+    .forEach((project, index) => { project.number = index + 1; });
   projects = Object.fromEntries(normalizedProjects.map((project) => [project.id, project]));
   projectOrder = normalizedProjects.map((project) => project.id);
 
@@ -118,7 +123,7 @@ function renderProjectCards(projectList) {
         </div>
       </dl>
       <div class="project-links">
-        <button type="button" data-open-project="">More detail</button>
+        <a data-open-project="">More detail</a>
         <a href="#"></a>
       </div>
     `;
@@ -136,7 +141,7 @@ function renderProjectCards(projectList) {
         cardThumb.remove();
       };
       cardThumb.append(cardImage);
-      article.prepend(cardThumb);
+      article.querySelector(".project-meta").after(cardThumb);
     }
 
     const meta = article.querySelectorAll(".project-meta span");
@@ -146,7 +151,8 @@ function renderProjectCards(projectList) {
     article.querySelector(".project-details div:nth-child(1) dd").textContent = project.role;
     article.querySelector(".project-details div:nth-child(2) dd").textContent = project.stack.join(", ");
     article.querySelector("[data-open-project]").dataset.openProject = project.id;
-    article.querySelector(".project-links a").href = project.source;
+    article.querySelector("[data-open-project]").href = `/proj/${project.number}`;
+    article.querySelector(".project-links a:last-child").href = project.source;
 
     return article;
   }));
@@ -155,8 +161,8 @@ function renderProjectCards(projectList) {
 }
 
 function getProjectNumber(projectKey) {
-  const projectIndex = projectOrder.indexOf(projectKey);
-  return projectIndex === -1 ? "" : `Project ${String(projectIndex + 1).padStart(2, "0")}`;
+  const number = projects[projectKey]?.number;
+  return number ? `#${String(number).padStart(2, "0")}` : "";
 }
 
 function applyProjectImage(projectKey) {
@@ -189,6 +195,7 @@ function renderProjectNumbers() {
 
     if (numberTarget && projectNumber) {
       numberTarget.textContent = projectNumber;
+      numberTarget.setAttribute("aria-label", `Project ${projects[card.dataset.projectCard].number}`);
     }
   });
 }
@@ -626,18 +633,50 @@ function navigateProject(direction) {
   const projectKey = getAdjacentProject(direction);
 
   if (projectKey) {
-    renderProjectModal(projectKey);
+    openProject(projectKey);
   }
 }
 
+function openProject(projectKey) {
+  if (!projects[projectKey]) return;
+  const path = `/proj/${projects[projectKey].number}`;
+  if (window.location.pathname !== path) {
+    window.history.pushState(null, "", path);
+  }
+  renderProjectModal(projectKey);
+}
+
+function syncProjectRoute() {
+  const match = window.location.pathname.match(/^\/proj\/([1-9]\d*)\/?$/);
+  const project = match && Object.values(projects).find((item) => item.number === Number(match[1]));
+  if (project) {
+    renderProjectModal(project.id);
+  } else if (projectModal?.open) {
+    projectModal.close();
+  }
+}
+
+function closeProject() {
+  window.history.pushState(null, "", "/");
+  projectModal.close();
+  currentProjectKey = null;
+}
+
 function bindEvents() {
+  window.addEventListener("popstate", syncProjectRoute);
+  projectModal?.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeProject();
+  });
   projectGrid?.addEventListener("click", (event) => {
     const sourceLink = event.target.closest("a");
     const detailButton = event.target.closest("[data-open-project]");
     const card = event.target.closest("[data-project-card]");
 
     if (detailButton) {
-      renderProjectModal(detailButton.dataset.openProject);
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      openProject(detailButton.dataset.openProject);
       return;
     }
 
@@ -645,7 +684,7 @@ function bindEvents() {
       return;
     }
 
-    renderProjectModal(card.dataset.projectCard);
+    openProject(card.dataset.projectCard);
   });
 
   skillFilters?.addEventListener("click", (event) => {
@@ -668,7 +707,7 @@ function bindEvents() {
   });
 
   document.querySelector("[data-close-modal]")?.addEventListener("click", () => {
-    projectModal.close();
+    closeProject();
   });
 
   modalPrev?.addEventListener("click", () => navigateProject(-1));
@@ -676,7 +715,7 @@ function bindEvents() {
 
   projectModal?.addEventListener("click", (event) => {
     if (event.target === projectModal) {
-      projectModal.close();
+      closeProject();
     }
   });
 
@@ -704,6 +743,7 @@ async function initialize() {
   renderProjectCards(projectList);
   renderProjectNumbers();
   renderSkillFilters();
+  syncProjectRoute();
 }
 
 initialize();

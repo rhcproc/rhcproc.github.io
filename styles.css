@@ -356,6 +356,22 @@ h2 {
   background: rgba(255, 255, 255, 0.018);
 }
 
+.project-meta span:first-child {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--bg);
+  padding: 4px 8px;
+  align-self: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+.project-card .project-meta span {
+  padding: 4px 8px;
+}
+
 .project-card h3 {
   position: relative;
   z-index: 1;
