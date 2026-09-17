@@ -1,4 +1,47 @@
 [
+
+{
+  "id": "factoryflow",
+  "category": "Industrial Automation",
+  "title": "FactoryFlow - Industrial Automation & PLC Control Simulator",
+  "summary": "A software-driven industrial automation simulator that demonstrates PLC-style cyclic control, conveyor routing, simulated industrial I/O, and IT/OT integration through a real-time monitoring interface.",
+  "role": "Designer, Software & Automation Developer (Solo Project)",
+  "stack": [
+    "C++20",
+    "IEC 61131-3 Structured Text",
+    "PLC Control Logic",
+    "State Machine",
+    "TCP/IP",
+    "Python",
+    "FastAPI",
+    "REST API",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Industrial HMI"
+  ],
+  "result": "Developed an end-to-end industrial automation simulation that connects a C++ PLC-style controller and virtual plant with a FastAPI IT/OT gateway and a web-based HMI, while mapping the control architecture to IEC 61131-3 Structured Text for real PLC environments.",
+  "image": "assets/projects/202609.png",
+  "story": "FactoryFlow was developed as a hands-on exploration of industrial automation from a software engineering perspective. Since PLC programming and IEC 61131-3 Structured Text were relatively new areas for me, I used LLM-assisted development to learn PLC concepts, review control patterns, and translate familiar software engineering ideas such as cyclic execution, state machines, and input/output separation into an industrial control context. I already had experience with C++, Python, FastAPI, React, and web/API development, but also used LLM assistance to accelerate the implementation of the MVP and focus more time on understanding the overall automation architecture rather than repetitive setup and boilerplate. Throughout the project, I reviewed and tested the generated code and kept the architecture intentionally small enough to understand and explain. The resulting system separates the C++ controller from the physical plant simulation, provides an equivalent IEC 61131-3 Structured Text implementation, and connects the control layer to a FastAPI gateway and Next.js HMI. The project demonstrates both my existing software engineering background and my process of applying AI-assisted development to learn and prototype in a new technical domain.",
+  "outcomes": [
+    "Designed a PLC-inspired cyclic control architecture using modern C++20.",
+    "Separated controller logic from physical plant simulation to model real industrial control architecture.",
+    "Implemented conveyor sequencing, sensor inputs, motor outputs, diverter control, and state-machine-based routing.",
+    "Created an equivalent IEC 61131-3 Structured Text implementation to demonstrate PLC control concepts.",
+    "Designed input and output structures that map simulated I/O concepts to industrial PLC and EtherCAT-style I/O architectures.",
+    "Implemented a FastAPI gateway to separate industrial control logic from the IT-facing application layer.",
+    "Built a Next.js HMI for monitoring controller state, sensor conditions, actuator outputs, and system commands.",
+    "Used LLM-assisted development to learn unfamiliar PLC concepts and accelerate MVP implementation while reviewing and validating the resulting architecture and code.",
+    "Demonstrated an end-to-end architecture spanning plant simulation, control, IT/OT integration, and operator monitoring."
+  ],
+  "links": [
+    {
+      "name": "GitHub Repository",
+      "url": "https://github.com/rhcproc/FactoryFlow"
+    }
+  ]
+},
+
   {
   "id": "teammaker",
   "category": "Education Platform",
