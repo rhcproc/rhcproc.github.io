@@ -1,7 +1,43 @@
 [
-
+{
+  "id": "ibm-mas-cli",
+  "date": "20260926",
+  "category": "IT / Software",
+  "categories": [
+    "software"
+  ],
+  "title": "IBM Maximo Application Suite CLI",
+  "subtitle": "Open-Source Bug Fix \u00b7 Pull Request Submitted",
+  "summary": "Investigated a bug in the IBM MAS CLI where a generated installation command did not match the CLI argument parser. Traced the issue through the Python codebase and submitted a patch to correct the generated AI Assistant argument.",
+  "role": "Open-source contributor",
+  "stack": [
+    "Python",
+    "IBM MAS",
+    "CLI",
+    "Git",
+    "Debugging"
+  ],
+  "result": "Pull request submitted to correct the generated AI Assistant argument.",
+  "image": "assets/projects/20260926.png",
+  "story": "Investigated a bug in the IBM MAS CLI where a generated installation command did not match the CLI argument parser. Traced the issue through the Python codebase and submitted a patch to correct the generated AI Assistant argument.",
+  "outcomes": [
+    "Traced the mismatch between the generated installation command and the CLI argument parser.",
+    "Submitted a patch to correct the generated AI Assistant argument."
+  ],
+  "links": [
+    {
+      "name": "Pull Request URL",
+      "url": "https://github.com/ibm-mas/cli/pull/2616"
+    },
+    {
+      "name": "Issue #2503 URL",
+      "url": "https://github.com/ibm-mas/cli/issues/2503"
+    }
+  ]
+},
 {
   "id": "factoryflow",
+  "categories": ["software"],
   "category": "Industrial Automation",
   "title": "FactoryFlow - Industrial Automation & PLC Control Simulator",
   "summary": "A software-driven industrial automation simulator that demonstrates PLC-style cyclic control, conveyor routing, simulated industrial I/O, and IT/OT integration through a real-time monitoring interface.",
@@ -44,6 +80,7 @@
 
   {
   "id": "teammaker",
+  "categories": ["software"],
   "category": "Education Platform",
   "title": "TeamMaker - Intelligent Team Formation & Classroom Management System",
   "summary": "A full-stack web application that helps instructors efficiently create balanced student teams, manage workspaces, organize lecture notes, and monitor project groups through an integrated classroom management dashboard.",
@@ -81,6 +118,7 @@
 },
   {
   "id": "crypto-trading-platform",
+  "categories": ["software", "ai", "research"],
   "category": "FinTech",
   "title": "Automated Cryptocurrency Trading & Analytics Platform",
   "summary": "An ongoing quantitative trading platform that collects market data, performs technical analysis, stores historical datasets in a cloud data lake, and executes automated trading strategies through exchange APIs.",
@@ -127,6 +165,7 @@
 },
   {
   "id": "python-finance-course",
+  "categories": ["ai"],
   "category": "Education",
   "title": "Python for Financial Data Analysis and Applications",
   "summary": "Designed and delivered a university-level course covering Python programming, data analysis, machine learning, cryptocurrency analytics, and cloud computing for finance applications.",
@@ -164,6 +203,7 @@
 },
   {
   "id": "ozone-prediction",
+  "categories": ["ai", "research"],
   "category": "AI",
   "title": "Ozone Concentration Prediction with Temporal Clustering and ANN",
   "summary": "A machine learning framework that combines K-Means temporal clustering and artificial neural networks to improve ozone trend prediction while reducing training data requirements.",
@@ -202,6 +242,7 @@
 },
 {
   "id": "aws-stock-pipeline",
+  "categories": ["software", "ai"],
   "category": "Data Engineering",
   "title": "Serverless Stock Data Pipeline with MWAA",
   "summary": "Built an automated stock market data pipeline using Apache Airflow on AWS MWAA to collect, process, and store market data in DynamoDB.",
@@ -238,6 +279,7 @@
 },
   {
   "id": "web3-ecosystem",
+  "categories": ["blockchain"],
   "category": "Blockchain",
   "title": "Web3 Staking & NFT Platform",
   "summary": "A full-stack Web3 ecosystem featuring ERC20 token staking, NFT minting, reward distribution, and blockchain interaction tools built on Ethereum.",
@@ -281,6 +323,7 @@
 },
   {
   "id": "zkp-smart-home",
+  "categories": ["blockchain", "research"],
   "category": "Blockchain",
   "title": "Blockchain-Based Smart Home Authentication with Zero-Knowledge Proofs",
   "summary": "A secure smart home authentication framework that combines Ethereum smart contracts, public-key infrastructure, and zero-knowledge proofs to provide privacy-preserving device authentication.",
@@ -315,6 +358,7 @@
 },
   {
   "id": "mccheyne-platform",
+  "categories": ["software"],
   "category": "Cloud",
   "title": "Serverless Bible Reading Platform",
   "summary": "A cloud-native web platform that helps users follow the McCheyne Bible reading plan through a scalable, low-cost serverless architecture on AWS.",
@@ -345,6 +389,7 @@
 },
   {
   "id": "pm25-prediction",
+  "categories": ["ai", "research"],
   "category": "AI",
   "title": "Deep Learning-Based PM2.5 Prediction Model",
   "summary": "A machine learning framework that predicts fine dust (PM2.5) concentration by combining ANN and LSTM models to capture both spatial and temporal environmental patterns.",
@@ -377,6 +422,7 @@
 },
   {
   "id": "secure-message-app",
+  "categories": ["software"],
   "category": "Security",
   "title": "Secure Message Encryption & Decryption Mobile App",
   "summary": "A mobile application for securely storing, encrypting, and decrypting sensitive text messages using password-based cryptography and account-based access control.",
@@ -405,6 +451,7 @@
 },
   {
   "id": "python-korea-seminar",
+  "categories": ["software"],
   "category": "Community",
   "title": "Python Korea Seminar: Building Web Applications with Tornado",
   "summary": "Presented a practical seminar for the Python Korea community, demonstrating how to build asynchronous web applications using Tornado through 12 hands-on examples.",
@@ -438,6 +485,7 @@
 },
   {
   "id": "satellite-monitoring",
+  "categories": ["software"],
   "category": "Aerospace",
   "title": "Satellite Data Collection & Monitoring Platform",
   "summary": "A real-time platform for collecting, processing, and monitoring satellite navigation data from ground stations and operational servers.",
@@ -472,6 +520,7 @@
 },
 {
   "id": "blockchain-integrity",
+  "categories": ["blockchain"],
   "category": "Blockchain",
   "title": "BAP@Y – Blockchain-Based Data Integrity Verification",
   "summary": "An award-winning blockchain solution that verifies digital document integrity using cryptographic hashes, public-key encryption, and immutable blockchain records.",
@@ -503,6 +552,7 @@
 },
   {
   "id": "infusion-pump-monitoring",
+  "categories": ["software"],
   "category": "Healthcare IoT",
   "title": "Smart Infusion Pump Monitoring System",
   "summary": "Developed a centralized monitoring platform for infusion pumps, enabling real-time device tracking, alarm management, usage analytics, and remote monitoring in hospital environments.",
@@ -544,6 +594,7 @@
 },
  {
   "id": "secure-messaging",
+  "categories": ["software", "research"],
   "category": "Security",
   "title": "End-to-End Encrypted Messaging Platform",
   "summary": "Designed and implemented a web-based secure messaging system using public-key cryptography, lightweight encryption, and secure key exchange mechanisms.",
@@ -573,6 +624,7 @@
 },
   {
     "id": "privacy-hadoop",
+  "categories": ["ai", "research"],
     "category": "Data Engineering",
     "title": "Privacy-Preserving Big Data Processing",
     "summary": "Designed and evaluated privacy-preserving data processing techniques using K-anonymity, L-diversity, and T-closeness on distributed Hadoop environments.",
@@ -605,6 +657,7 @@
   },
   {
     "id": "movie-audience",
+  "categories": ["ai", "research"],
     "category": "Machine Learning",
     "title": "Movie Audience Prediction Competition",
     "summary": "Built machine learning models to forecast movie audience numbers using historical box-office and movie-related data.",
@@ -634,5 +687,4 @@
       }
     ]
   }
-  
 ]

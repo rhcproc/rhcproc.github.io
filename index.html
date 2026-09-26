@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20260916-3">
+    <link rel="stylesheet" href="styles.css?v=20260926-1">
   </head>
   <body>
     <canvas class="starfield" aria-hidden="true"></canvas>
@@ -25,6 +25,20 @@
 
       <section id="about" class="section split-section">
         <div class="about-copy">
+          <div class="portfolio-intro">
+            <h1>Software &amp; Systems Engineer</h1>
+            <p>Building and integrating software systems across backend, cloud, data, and infrastructure.</p>
+          </div>
+          <nav class="category-panel" aria-label="Project categories">
+            <p class="eyebrow">Project Categories</p>
+            <ul class="skill-list" data-category-filters>
+              <li><button type="button" data-category-filter="all" aria-pressed="true">All</button></li>
+              <li><button type="button" data-category-filter="software" aria-pressed="false">IT / Software</button></li>
+              <li><button type="button" data-category-filter="ai" aria-pressed="false">AI / Data</button></li>
+              <li><button type="button" data-category-filter="blockchain" aria-pressed="false">Blockchain</button></li>
+              <li><button type="button" data-category-filter="research" aria-pressed="false">Research</button></li>
+            </ul>
+          </nav>
           <details class="filter-panel">
             <summary>
               <span class="filter-icon" aria-hidden="true">⌕</span>
@@ -38,10 +52,10 @@
             <div class="filter-progress" data-filter-progress hidden aria-hidden="true">
               <span></span>
             </div>
-            <p class="filter-count" data-filter-count aria-live="polite"></p>
             <ul class="skill-list" aria-label="Technical skill filters" data-skill-filters>
             </ul>
           </details>
+          <p class="filter-count" data-filter-count aria-live="polite"></p>
         </div>
       </section>
 
@@ -92,6 +106,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20260916-3"></script>
+    <script src="script.js?v=20260926-1"></script>
   </body>
 </html>

@@ -971,3 +971,10 @@ dd {
     transition: none;
   }
 }
+
+.portfolio-intro { margin-bottom: 32px; }
+.portfolio-intro h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; }
+.portfolio-intro p { max-width: 680px; color: var(--muted); }
+.category-panel { margin-bottom: 24px; }
+.project-subtitle { color: var(--blue); font-size: 0.88rem; }
+.link-placeholder { color: var(--muted); font-size: 0.88rem; }

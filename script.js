@@ -18,6 +18,9 @@ const skillSearch = document.querySelector("[data-skill-search]");
 const filterProgress = document.querySelector("[data-filter-progress]");
 const filterCount = document.querySelector("[data-filter-count]");
 const projectGrid = document.querySelector("[data-project-grid]");
+const categoryFilters = document.querySelector("[data-category-filters]");
+const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", blockchain: "Blockchain", research: "Research" };
+const softwarePriority = ["ibm-mas-cli", "factoryflow", "teammaker", "crypto-trading-platform", "aws-stock-pipeline", "python-korea-seminar"];
 const visibleSkillLimit = 15;
 
 let stars = [];
@@ -31,6 +34,7 @@ let projects = {};
 let filterProgressTimer = null;
 let filterSettleTimer = null;
 let selectedSkill = "All";
+let selectedCategory = "all";
 let skillFiltersExpanded = false;
 
 async function loadProjects() {
@@ -60,7 +64,7 @@ function normalizeProjectLinks(project) {
         name: String(link.name || "").trim(),
         url: String(link.url || "").trim()
       }))
-      .filter((link) => link.name && link.url);
+      .filter((link) => link.name);
   }
 
   return [
@@ -78,6 +82,8 @@ function normalizeProject(project, index) {
     id,
     date: project.date || project.image?.match(/(?:^|\/)(\d{6})\./)?.[1] || "",
     category: project.category || "Project",
+    categories: Array.isArray(project.categories) ? project.categories : [],
+    subtitle: project.subtitle || "",
     title: project.title || "Untitled Project",
     summary: project.summary || "",
     role: project.role || "",
@@ -148,11 +154,24 @@ function renderProjectCards(projectList) {
     meta[1].textContent = project.category;
     article.querySelector("h3").textContent = project.title;
     article.querySelector("p").textContent = project.summary;
+    if (project.subtitle) {
+      const subtitle = document.createElement("p");
+      subtitle.className = "project-subtitle";
+      subtitle.textContent = project.subtitle;
+      article.querySelector("h3").after(subtitle);
+    }
     article.querySelector(".project-details div:nth-child(1) dd").textContent = project.role;
     article.querySelector(".project-details div:nth-child(2) dd").textContent = project.stack.join(", ");
     article.querySelector("[data-open-project]").dataset.openProject = project.id;
     article.querySelector("[data-open-project]").href = `/proj/${project.number}`;
-    article.querySelector(".project-links a:last-child").href = project.source;
+    const sourceLink = article.querySelector(".project-links a:last-child");
+    const primaryLink = project.links.find((link) => link.url);
+    if (primaryLink) {
+      sourceLink.href = primaryLink.url;
+      sourceLink.textContent = primaryLink.name;
+    } else {
+      sourceLink.remove();
+    }
 
     return article;
   }));
@@ -205,17 +224,48 @@ function getCardStackKeywords(card) {
   return project?.stack || [];
 }
 
-function getCardsMatchingSkill(skill) {
-  if (skill === "All") {
-    return projectCards;
-  }
+function getCategoryCards() {
+  return projectCards.filter((card) => selectedCategory === "all" ||
+    projects[card.dataset.projectCard].categories.includes(selectedCategory));
+}
 
-  return projectCards.filter((card) => getCardStackKeywords(card).includes(skill));
+function getCardsMatchingSkill(skill) {
+  return getCategoryCards().filter((card) => skill === "All" || getCardStackKeywords(card).includes(skill));
+}
+
+function syncCategoryFromUrl() {
+  const category = new URLSearchParams(window.location.search).get("category");
+  selectedCategory = Object.hasOwn(categoryNames, category) ? category : "all";
+  categoryFilters?.querySelectorAll("[data-category-filter]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.categoryFilter === selectedCategory));
+  });
+  const orderedCards = [...projectCards];
+  if (selectedCategory === "software") {
+    const rank = (card) => {
+      const index = softwarePriority.indexOf(card.dataset.projectCard);
+      return index < 0 ? softwarePriority.length : index;
+    };
+    orderedCards.sort((a, b) => rank(a) - rank(b));
+  }
+  projectGrid.append(...orderedCards);
+  projectOrder = orderedCards.map((card) => card.dataset.projectCard);
+  projectCards.forEach((card) => {
+    card.querySelector("[data-open-project]").href = `/proj/${projects[card.dataset.projectCard].number}${window.location.search}`;
+  });
+  applySkillFilter(selectedSkill);
+}
+
+function selectCategory(category) {
+  const url = new URL(window.location.href);
+  if (category === "all") url.searchParams.delete("category");
+  else url.searchParams.set("category", category);
+  window.history.pushState(null, "", url);
+  syncCategoryFromUrl();
 }
 
 function getOverlapCount(skill, scopedCards) {
   if (skill === "All") {
-    return projectCards.length;
+    return getCategoryCards().length;
   }
 
   return scopedCards.filter((card) => getCardStackKeywords(card).includes(skill)).length;
@@ -232,12 +282,11 @@ function updateFilterCountSummary(matchingCount) {
 
   const projectLabel = matchingCount === 1 ? "project" : "projects";
 
-  if (selectedSkill === "All") {
-    filterCount.textContent = `Showing all ${matchingCount} ${projectLabel}.`;
-    return;
-  }
-
-  filterCount.textContent = `Showing ${matchingCount} ${projectLabel} overlapping with ${selectedSkill}.`;
+  const categoryLabel = selectedCategory === "all" ? "" : ` in ${categoryNames[selectedCategory]}`;
+  const skillLabel = selectedSkill === "All" ? "" : ` using ${selectedSkill}`;
+  filterCount.textContent = matchingCount === 0
+    ? `No projects${categoryLabel}${skillLabel}. Try another category or select All in the stack filter.`
+    : `Showing ${matchingCount} ${projectLabel}${categoryLabel}${skillLabel}.`;
 }
 
 function updateSkillOverlapCounts() {
@@ -554,12 +603,18 @@ async function renderProjectModal(projectKey) {
   }));
 
   modalTitle.textContent = project.title;
-  modalSummary.textContent = project.summary;
+  modalSummary.textContent = [project.subtitle, project.summary].filter(Boolean).join(" — ");
   applyProjectImage(projectKey);
   modalStory.textContent = project.story;
 
   if (modalLinks) {
     modalLinks.replaceChildren(...project.links.map((link) => {
+      if (!link.url) {
+        const placeholder = document.createElement("span");
+        placeholder.className = "link-placeholder";
+        placeholder.textContent = `${link.name} — to be added`;
+        return placeholder;
+      }
       const anchor = document.createElement("a");
       anchor.href = link.url;
       anchor.textContent = link.name;
@@ -639,8 +694,8 @@ function navigateProject(direction) {
 
 function openProject(projectKey) {
   if (!projects[projectKey]) return;
-  const path = `/proj/${projects[projectKey].number}`;
-  if (window.location.pathname !== path) {
+  const path = `/proj/${projects[projectKey].number}${window.location.search}${window.location.hash}`;
+  if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== path) {
     window.history.pushState(null, "", path);
   }
   renderProjectModal(projectKey);
@@ -657,13 +712,20 @@ function syncProjectRoute() {
 }
 
 function closeProject() {
-  window.history.pushState(null, "", "/");
+  window.history.pushState(null, "", `/${window.location.search}${window.location.hash}`);
   projectModal.close();
   currentProjectKey = null;
 }
 
 function bindEvents() {
-  window.addEventListener("popstate", syncProjectRoute);
+  window.addEventListener("popstate", () => {
+    syncCategoryFromUrl();
+    syncProjectRoute();
+  });
+  categoryFilters?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-category-filter]");
+    if (button) selectCategory(button.dataset.categoryFilter);
+  });
   projectModal?.addEventListener("cancel", (event) => {
     event.preventDefault();
     closeProject();
@@ -743,6 +805,7 @@ async function initialize() {
   renderProjectCards(projectList);
   renderProjectNumbers();
   renderSkillFilters();
+  syncCategoryFromUrl();
   syncProjectRoute();
 }
 
