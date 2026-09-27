@@ -790,7 +790,8 @@ dd {
   line-height: 1;
 }
 
-.project-card.is-hidden {
+.project-card.is-hidden,
+.contribution-entry.is-hidden {
   display: none;
 }
 
@@ -978,3 +979,77 @@ dd {
 .category-panel { margin-bottom: 24px; }
 .project-subtitle { color: var(--blue); font-size: 0.88rem; }
 .link-placeholder { color: var(--muted); font-size: 0.88rem; }
+
+.project-group-heading {
+  grid-column: 1 / -1;
+  margin: 24px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.project-card .project-type {
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.contribution-entry {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 1.5fr) auto;
+  align-items: center;
+  gap: 20px 28px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.contribution-entry h3 {
+  margin: 8px 0 6px;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.contribution-entry p { margin: 0; }
+.contribution-badge { color: var(--blue); font-size: 0.7rem; }
+.contribution-organization { color: var(--muted); font-size: 0.8rem; }
+.contribution-tags { color: var(--blue); font-size: 0.8rem; }
+.contribution-entry .contribution-summary {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.contribution-links { margin: 0; flex-direction: column; align-items: flex-start; gap: 10px; }
+.contribution-links a { white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .contribution-entry { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+  .contribution-links { flex-direction: row; flex-wrap: wrap; gap: 12px 20px; }
+}
+
+.contribution-section { grid-column: 1 / -1; min-width: 0; }
+.contribution-section .project-group-heading { margin: 24px 0 0; }
+.contribution-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.contribution-toggle:hover { color: var(--blue); }
+.contribution-toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; border-radius: 2px; }
+.contribution-chevron { color: var(--blue); font-size: 1.5rem; line-height: 1; }
+.contribution-toggle[aria-expanded="true"] .contribution-chevron { transform: rotate(90deg); }
+.contribution-entries { display: grid; gap: 12px; margin-top: 16px; }
+.contribution-entries[hidden], .contribution-section[hidden] { display: none; }

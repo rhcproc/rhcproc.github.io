@@ -20,7 +20,7 @@ const filterCount = document.querySelector("[data-filter-count]");
 const projectGrid = document.querySelector("[data-project-grid]");
 const categoryFilters = document.querySelector("[data-category-filters]");
 const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", blockchain: "Blockchain", research: "Research" };
-const softwarePriority = ["ibm-mas-cli", "factoryflow", "teammaker", "crypto-trading-platform", "aws-stock-pipeline", "python-korea-seminar"];
+const softwarePriority = ["factoryflow", "teammaker", "crypto-trading-platform", "aws-stock-pipeline", "python-korea-seminar"];
 const visibleSkillLimit = 15;
 
 let stars = [];
@@ -29,21 +29,24 @@ let height = 0;
 let animationFrame = null;
 let currentProjectKey = null;
 let projectCards = [];
+let contributionCards = [];
+let contributions = {};
 let projectOrder = [];
 let projects = {};
 let filterProgressTimer = null;
 let filterSettleTimer = null;
 let selectedSkill = "All";
-let selectedCategory = "all";
+let selectedCategory = "software";
+let contributionsExpanded = true;
 let skillFiltersExpanded = false;
 
-async function loadProjects() {
+async function loadPortfolioData(path) {
   if (window.location.protocol === "file:") {
     return [];
   }
 
   try {
-    const response = await fetch("projects.json", { cache: "no-store" });
+    const response = await fetch(path, { cache: "no-store" });
 
     if (!response.ok) {
       return [];
@@ -95,6 +98,66 @@ function normalizeProject(project, index) {
     links,
     source: links.find((link) => link.name.toLowerCase() === "source")?.url || links[0]?.url || "#"
   };
+}
+
+function normalizeContribution(contribution, index) {
+  return {
+    id: contribution.id || `contribution-${index + 1}`,
+    date: contribution.date || "",
+    categories: Array.isArray(contribution.categories) ? contribution.categories : [],
+    title: contribution.title || "Untitled Contribution",
+    organization: contribution.organization || "",
+    tags: Array.isArray(contribution.tags) ? contribution.tags : [],
+    summary: contribution.summary || "",
+    links: normalizeProjectLinks(contribution)
+  };
+}
+
+function renderContributions(contributionList) {
+  const normalized = contributionList.map(normalizeContribution);
+  contributions = Object.fromEntries(normalized.map((entry) => [entry.id, entry]));
+  contributionCards = normalized.map(renderContribution);
+}
+
+function getPortfolioCards() {
+  return [...contributionCards, ...projectCards];
+}
+
+function getCardData(card) {
+  return card.dataset.contributionCard
+    ? contributions[card.dataset.contributionCard]
+    : projects[card.dataset.projectCard];
+}
+
+function renderContribution(project) {
+  const article = document.createElement("article");
+  article.className = "contribution-entry";
+  article.dataset.contributionCard = project.id;
+  article.innerHTML = `
+    <div class="contribution-identity">
+      <span class="contribution-badge">Open Source Contribution</span>
+      <h3></h3>
+      <p class="contribution-organization"></p>
+    </div>
+    <div class="contribution-description">
+      <p class="contribution-tags"></p>
+      <p class="contribution-summary"></p>
+    </div>
+    <div class="project-links contribution-links"></div>
+  `;
+  article.querySelector("h3").textContent = project.title;
+  article.querySelector(".contribution-organization").textContent = project.organization;
+  article.querySelector(".contribution-tags").textContent = project.tags.join(" · ");
+  article.querySelector(".contribution-summary").textContent = project.summary;
+  article.querySelector(".contribution-links").replaceChildren(...project.links
+    .filter((link) => link.url)
+    .map((link) => {
+      const anchor = document.createElement("a");
+      anchor.textContent = link.name;
+      anchor.href = link.url;
+      return anchor;
+    }));
+  return article;
 }
 
 function renderProjectCards(projectList) {
@@ -152,8 +215,8 @@ function renderProjectCards(projectList) {
 
     const meta = article.querySelectorAll(".project-meta span");
     meta[1].textContent = project.category;
-    article.querySelector("h3").textContent = project.title;
     article.querySelector("p").textContent = project.summary;
+    article.querySelector("h3").textContent = project.title;
     if (project.subtitle) {
       const subtitle = document.createElement("p");
       subtitle.className = "project-subtitle";
@@ -220,13 +283,13 @@ function renderProjectNumbers() {
 }
 
 function getCardStackKeywords(card) {
-  const project = projects[card.dataset.projectCard];
-  return project?.stack || [];
+  const entry = getCardData(card);
+  return entry?.stack || entry?.tags || [];
 }
 
 function getCategoryCards() {
-  return projectCards.filter((card) => selectedCategory === "all" ||
-    projects[card.dataset.projectCard].categories.includes(selectedCategory));
+  return getPortfolioCards().filter((card) => selectedCategory === "all" ||
+    getCardData(card).categories.includes(selectedCategory));
 }
 
 function getCardsMatchingSkill(skill) {
@@ -235,7 +298,7 @@ function getCardsMatchingSkill(skill) {
 
 function syncCategoryFromUrl() {
   const category = new URLSearchParams(window.location.search).get("category");
-  selectedCategory = Object.hasOwn(categoryNames, category) ? category : "all";
+  selectedCategory = Object.hasOwn(categoryNames, category) ? category : "software";
   categoryFilters?.querySelectorAll("[data-category-filter]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.categoryFilter === selectedCategory));
   });
@@ -247,18 +310,57 @@ function syncCategoryFromUrl() {
     };
     orderedCards.sort((a, b) => rank(a) - rank(b));
   }
-  projectGrid.append(...orderedCards);
+  projectGrid.replaceChildren(...contributionCards, ...orderedCards);
+  if (contributionCards.length) {
+    const section = document.createElement("section");
+    section.className = "contribution-section";
+    section.dataset.projectGroup = "open-source-contribution";
+    section.innerHTML = `
+      <h2 class="project-group-heading">
+        <button type="button" class="contribution-toggle" aria-expanded="${contributionsExpanded}" aria-controls="contribution-entries">
+          <span data-contribution-label></span>
+          <span class="contribution-chevron" aria-hidden="true">›</span>
+        </button>
+      </h2>
+      <div id="contribution-entries" class="contribution-entries" ${contributionsExpanded ? "" : "hidden"}></div>
+    `;
+    contributionCards[0].before(section);
+    section.querySelector(".contribution-entries").append(...contributionCards);
+    section.querySelector("button").addEventListener("click", () => {
+      contributionsExpanded = !contributionsExpanded;
+      updateContributionSection(getCardsMatchingSkill(selectedSkill));
+    });
+  }
+  const firstProject = orderedCards[0];
+  if (firstProject) {
+    const heading = document.createElement("h2");
+    heading.className = "project-group-heading";
+    heading.dataset.projectGroup = "project";
+    heading.textContent = "Projects";
+    firstProject.before(heading);
+  }
   projectOrder = orderedCards.map((card) => card.dataset.projectCard);
   projectCards.forEach((card) => {
-    card.querySelector("[data-open-project]").href = `/proj/${projects[card.dataset.projectCard].number}${window.location.search}`;
+    const detailLink = card.querySelector("[data-open-project]");
+    if (detailLink) detailLink.href = `/proj/${projects[card.dataset.projectCard].number}${window.location.search}`;
   });
   applySkillFilter(selectedSkill);
 }
 
+function updateContributionSection(matchingCards) {
+  const section = projectGrid.querySelector(".contribution-section");
+  if (!section) return;
+  const count = matchingCards.filter((card) =>
+    card.dataset.contributionCard).length;
+  section.hidden = count === 0;
+  section.querySelector("[data-contribution-label]").textContent = `Open Source Contributions (${count})`;
+  section.querySelector("button").setAttribute("aria-expanded", String(contributionsExpanded));
+  section.querySelector(".contribution-entries").hidden = !contributionsExpanded;
+}
+
 function selectCategory(category) {
   const url = new URL(window.location.href);
-  if (category === "all") url.searchParams.delete("category");
-  else url.searchParams.set("category", category);
+  url.searchParams.set("category", category);
   window.history.pushState(null, "", url);
   syncCategoryFromUrl();
 }
@@ -353,7 +455,7 @@ function renderSkillFilters() {
     return;
   }
 
-  const keywords = [...new Set(projectCards.flatMap(getCardStackKeywords))]
+  const keywords = [...new Set(getPortfolioCards().flatMap(getCardStackKeywords))]
     .sort(compareSkillNames);
   const filters = ["All", ...keywords];
 
@@ -457,7 +559,7 @@ function applySkillFilter(skill) {
     button.setAttribute("aria-pressed", button.dataset.skillFilter === skill ? "true" : "false");
   });
 
-  projectCards.forEach((card) => {
+  getPortfolioCards().forEach((card) => {
     const isMatch = matchingCardSet.has(card);
 
     card.classList.remove("is-entering");
@@ -465,6 +567,12 @@ function applySkillFilter(skill) {
     card.classList.toggle("is-hidden", !isMatch);
   });
 
+  projectGrid.querySelectorAll("[data-project-group]").forEach((heading) => {
+    heading.hidden = !matchingCards.some((card) =>
+      (card.dataset.contributionCard ? "open-source-contribution" : "project") === heading.dataset.projectGroup);
+  });
+
+  updateContributionSection(matchingCards);
   updateSelectedSkill(skill);
 
   void projectGrid?.offsetWidth;
@@ -801,8 +909,12 @@ async function initialize() {
   startStarfield();
   bindEvents();
 
-  const projectList = await loadProjects();
+  const [projectList, contributionList] = await Promise.all([
+    loadPortfolioData("projects.json"),
+    loadPortfolioData("contributions.json")
+  ]);
   renderProjectCards(projectList);
+  renderContributions(contributionList);
   renderProjectNumbers();
   renderSkillFilters();
   syncCategoryFromUrl();

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ibm-mas-cli",
+    "date": "20260926",
+    "categories": [
+      "software"
+    ],
+    "title": "IBM Maximo Application Suite CLI",
+    "organization": "IBM",
+    "tags": [
+      "Python",
+      "CLI",
+      "Bug Fix"
+    ],
+    "summary": "Submitted a fix for an inconsistency between the generated AI Assistant installation argument and the CLI parser.",
+    "links": [
+      {
+        "name": "Pull Request #2616",
+        "url": "https://github.com/ibm-mas/cli/pull/2616"
+      },
+      {
+        "name": "Issue #2503",
+        "url": "https://github.com/ibm-mas/cli/issues/2503"
+      }
+    ]
+  },
+  {
+  "id": "erc5643",
+  "type": "open-source-contribution",
+  "date": "20230115",
+  "categories": ["blockchain"],
+  "title": "ERC5643",
+  "organization": "cygaar",
+  "tags": ["Solidity", "Ethereum", "NFT"],
+  "summary": "Contributed to the open-source reference implementation of EIP-5643 for subscription NFTs.",
+  "links": [
+    {
+      "name": "Pull Request #5",
+      "url": "https://github.com/cygaar/ERC5643/pull/5"
+    }
+  ]
+},
+{
+  "id": "metaplex-anchor-nft",
+  "categories": ["blockchain"],
+  "title": "Metaplex Anchor NFT",
+  "organization": "anoushk1234",
+  "tags": ["Solana", "Anchor", "NFT"],
+  "summary": "Contributed to an open-source example project for minting NFTs on Solana using Anchor and Metaplex.",
+  "links": [
+    {
+      "name": "Pull Request #9",
+      "url": "https://github.com/anoushk1234/metaplex-anchor-nft/pull/9"
+    }
+  ]
+}
+]
