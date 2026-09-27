@@ -1,42 +1,8 @@
 [
-{
-  "id": "ibm-mas-cli",
-  "date": "20260926",
-  "category": "IT / Software",
-  "categories": [
-    "software"
-  ],
-  "title": "IBM Maximo Application Suite CLI",
-  "subtitle": "Open-Source Bug Fix \u00b7 Pull Request Submitted",
-  "summary": "Investigated a bug in the IBM MAS CLI where a generated installation command did not match the CLI argument parser. Traced the issue through the Python codebase and submitted a patch to correct the generated AI Assistant argument.",
-  "role": "Open-source contributor",
-  "stack": [
-    "Python",
-    "IBM MAS",
-    "CLI",
-    "Git",
-    "Debugging"
-  ],
-  "result": "Pull request submitted to correct the generated AI Assistant argument.",
-  "image": "assets/projects/20260926.png",
-  "story": "Investigated a bug in the IBM MAS CLI where a generated installation command did not match the CLI argument parser. Traced the issue through the Python codebase and submitted a patch to correct the generated AI Assistant argument.",
-  "outcomes": [
-    "Traced the mismatch between the generated installation command and the CLI argument parser.",
-    "Submitted a patch to correct the generated AI Assistant argument."
-  ],
-  "links": [
-    {
-      "name": "Pull Request URL",
-      "url": "https://github.com/ibm-mas/cli/pull/2616"
-    },
-    {
-      "name": "Issue #2503 URL",
-      "url": "https://github.com/ibm-mas/cli/issues/2503"
-    }
-  ]
-},
+
 {
   "id": "factoryflow",
+  "type": "project",
   "categories": ["software"],
   "category": "Industrial Automation",
   "title": "FactoryFlow - Industrial Automation & PLC Control Simulator",
@@ -80,6 +46,7 @@
 
   {
   "id": "teammaker",
+  "type": "project",
   "categories": ["software"],
   "category": "Education Platform",
   "title": "TeamMaker - Intelligent Team Formation & Classroom Management System",
@@ -118,6 +85,7 @@
 },
   {
   "id": "crypto-trading-platform",
+  "type": "project",
   "categories": ["software", "ai", "research"],
   "category": "FinTech",
   "title": "Automated Cryptocurrency Trading & Analytics Platform",
@@ -165,6 +133,7 @@
 },
   {
   "id": "python-finance-course",
+  "type": "project",
   "categories": ["ai"],
   "category": "Education",
   "title": "Python for Financial Data Analysis and Applications",
@@ -203,6 +172,7 @@
 },
   {
   "id": "ozone-prediction",
+  "type": "project",
   "categories": ["ai", "research"],
   "category": "AI",
   "title": "Ozone Concentration Prediction with Temporal Clustering and ANN",
@@ -242,6 +212,7 @@
 },
 {
   "id": "aws-stock-pipeline",
+  "type": "project",
   "categories": ["software", "ai"],
   "category": "Data Engineering",
   "title": "Serverless Stock Data Pipeline with MWAA",
@@ -279,6 +250,7 @@
 },
   {
   "id": "web3-ecosystem",
+  "type": "project",
   "categories": ["blockchain"],
   "category": "Blockchain",
   "title": "Web3 Staking & NFT Platform",
@@ -323,6 +295,7 @@
 },
   {
   "id": "zkp-smart-home",
+  "type": "project",
   "categories": ["blockchain", "research"],
   "category": "Blockchain",
   "title": "Blockchain-Based Smart Home Authentication with Zero-Knowledge Proofs",
@@ -358,6 +331,7 @@
 },
   {
   "id": "mccheyne-platform",
+  "type": "project",
   "categories": ["software"],
   "category": "Cloud",
   "title": "Serverless Bible Reading Platform",
@@ -389,6 +363,7 @@
 },
   {
   "id": "pm25-prediction",
+  "type": "project",
   "categories": ["ai", "research"],
   "category": "AI",
   "title": "Deep Learning-Based PM2.5 Prediction Model",
@@ -422,6 +397,7 @@
 },
   {
   "id": "secure-message-app",
+  "type": "project",
   "categories": ["software"],
   "category": "Security",
   "title": "Secure Message Encryption & Decryption Mobile App",
@@ -451,6 +427,7 @@
 },
   {
   "id": "python-korea-seminar",
+  "type": "project",
   "categories": ["software"],
   "category": "Community",
   "title": "Python Korea Seminar: Building Web Applications with Tornado",
@@ -485,6 +462,7 @@
 },
   {
   "id": "satellite-monitoring",
+  "type": "project",
   "categories": ["software"],
   "category": "Aerospace",
   "title": "Satellite Data Collection & Monitoring Platform",
@@ -520,6 +498,7 @@
 },
 {
   "id": "blockchain-integrity",
+  "type": "project",
   "categories": ["blockchain"],
   "category": "Blockchain",
   "title": "BAP@Y – Blockchain-Based Data Integrity Verification",
@@ -552,6 +531,7 @@
 },
   {
   "id": "infusion-pump-monitoring",
+  "type": "project",
   "categories": ["software"],
   "category": "Healthcare IoT",
   "title": "Smart Infusion Pump Monitoring System",
@@ -594,6 +574,7 @@
 },
  {
   "id": "secure-messaging",
+  "type": "project",
   "categories": ["software", "research"],
   "category": "Security",
   "title": "End-to-End Encrypted Messaging Platform",
@@ -624,6 +605,7 @@
 },
   {
     "id": "privacy-hadoop",
+  "type": "project",
   "categories": ["ai", "research"],
     "category": "Data Engineering",
     "title": "Privacy-Preserving Big Data Processing",
@@ -657,6 +639,7 @@
   },
   {
     "id": "movie-audience",
+  "type": "project",
   "categories": ["ai", "research"],
     "category": "Machine Learning",
     "title": "Movie Audience Prediction Competition",
