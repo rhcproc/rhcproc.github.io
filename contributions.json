@@ -26,12 +26,11 @@
   },
   {
   "id": "erc5643",
-  "type": "open-source-contribution",
   "date": "20230115",
-  "categories": ["blockchain"],
+  "categories": ["security"],
   "title": "ERC5643",
   "organization": "cygaar",
-  "tags": ["Solidity", "Ethereum", "NFT"],
+  "tags": ["Blockchain", "Web3", "Smart Contract", "Solidity", "Ethereum", "NFT"],
   "summary": "Contributed to the open-source reference implementation of EIP-5643 for subscription NFTs.",
   "links": [
     {
@@ -42,10 +41,11 @@
 },
 {
   "id": "metaplex-anchor-nft",
-  "categories": ["blockchain"],
+  "date": "",
+  "categories": ["security"],
   "title": "Metaplex Anchor NFT",
   "organization": "anoushk1234",
-  "tags": ["Solana", "Anchor", "NFT"],
+  "tags": ["Blockchain", "Web3", "Solana", "Anchor", "NFT"],
   "summary": "Contributed to an open-source example project for minting NFTs on Solana using Anchor and Metaplex.",
   "links": [
     {

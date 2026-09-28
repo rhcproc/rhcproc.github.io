@@ -38,7 +38,7 @@ test('projects and compact contributions are stored separately', () => {
   assert.ok(data.every(p => p.type !== 'open-source-contribution'));
   for (const p of entries) {
     assert.ok(p.categories.length);
-    assert.ok(p.categories.every(c => ['software', 'ai', 'blockchain', 'research'].includes(c)));
+    assert.ok(p.categories.every(c => ['software', 'ai', 'security', 'research'].includes(c)));
   }
   for (const p of contributionData) {
     assert.deepEqual(Object.keys(p).sort(), ['id', 'date', 'categories', 'title', 'organization', 'tags', 'summary', 'links'].sort());
@@ -48,7 +48,7 @@ test('projects and compact contributions are stored separately', () => {
 
 test('category and stack intersect, including empty results and category-scoped counts', () => {
   const { run } = setup();
-  for (const category of ['all', 'software', 'ai', 'blockchain', 'research']) {
+  for (const category of ['all', 'software', 'ai', 'security', 'research']) {
     for (const skill of ['All', 'Python', 'Solidity', 'IBM MAS']) {
       run(`selectedCategory = ${JSON.stringify(category)}`);
       const actual = run(`getCardsMatchingSkill(${JSON.stringify(skill)}).map(c => c.dataset.contributionCard || c.dataset.projectCard)`);
@@ -91,19 +91,19 @@ test('contributions have their own section and never enter project modal navigat
   assert.equal(run('contributions["ibm-mas-cli"].tags.join(" · ")'), 'Python · CLI · Bug Fix');
 });
 
- test('blockchain contributions follow category and tag filters', () => {
+test('Web3 contributions follow security category and tag filters', () => {
   const { run } = setup();
-  run(`contributions.example = normalizeContribution({id: 'example', categories: ['blockchain'], tags: ['Solidity']}, 0);
+  run(`contributions.example = normalizeContribution({id: 'example', categories: ['security'], tags: ['Solidity']}, 0);
        contributionCards.push({dataset: {contributionCard: 'example'}});`);
-  for (const category of ['software', 'blockchain', 'all', 'ai']) {
+  for (const category of ['software', 'security', 'all', 'ai']) {
     run(`selectedCategory = "${category}"`);
-    assert.equal(run('getCardsMatchingSkill("Solidity").some(c => c.dataset.contributionCard === "example")'), ['blockchain', 'all'].includes(category));
+    assert.equal(run('getCardsMatchingSkill("Solidity").some(c => c.dataset.contributionCard === "example")'), ['security', 'all'].includes(category));
   }
 });
 
 test('root defaults to software without rewriting the URL; explicit categories work', () => {
   const { run, context } = setup();
-  for (const category of [null, 'software', 'all', 'ai', 'blockchain', 'research']) {
+  for (const category of [null, 'software', 'all', 'ai', 'security', 'research']) {
     const url = 'https://example.com/' + (category ? '?category=' + category : '');
     context.window.location = new URL(url);
     run('syncCategoryFromUrl()');

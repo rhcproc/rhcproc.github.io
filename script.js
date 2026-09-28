@@ -19,7 +19,7 @@ const filterProgress = document.querySelector("[data-filter-progress]");
 const filterCount = document.querySelector("[data-filter-count]");
 const projectGrid = document.querySelector("[data-project-grid]");
 const categoryFilters = document.querySelector("[data-category-filters]");
-const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", blockchain: "Blockchain", research: "Research" };
+const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", security: "Security", research: "Research" };
 const softwarePriority = ["factoryflow", "teammaker", "crypto-trading-platform", "aws-stock-pipeline", "python-korea-seminar"];
 const visibleSkillLimit = 15;
 
