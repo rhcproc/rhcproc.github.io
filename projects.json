@@ -253,8 +253,9 @@
   "type": "project",
   "categories": ["security"],
   "category": "Web3 / Smart Contracts",
-  "title": "Web3 Staking & NFT Platform",
-  "summary": "A full-stack Web3 ecosystem featuring ERC20 token staking, NFT minting, reward distribution, and blockchain interaction tools built on Ethereum.",
+  "date": "202210",
+  "title": "Web3 Staking Platform",
+  "summary": "An Ethereum ERC20 staking platform developed at Alocados Inc., modeled on ApeCoin Staking, with reward distribution, APR estimates, and claims.",
   "role": "Full-Stack and Blockchain Developer & Research Engineer (Alocados Inc.)",
   "stack": [
     "Blockchain",
@@ -263,7 +264,6 @@
     "Solidity",
     "Ethereum",
     "ERC20",
-    "ERC721",
     "React",
     "TypeScript",
     "Web3.js",
@@ -277,17 +277,30 @@
     "CloudFront",
     "GitHub Actions"
   ],
-  "result": "Developed staking contracts, NFT minting infrastructure, and testing platforms while researching reward optimization and Web3 user experiences.",
-  "image": "assets/projects/202210.png",
-  "story": "This project explored the development of a complete Web3 ecosystem consisting of ERC20 staking contracts, NFT minting services, reward distribution mechanisms, and blockchain-enabled web applications. The staking platform provided flexible staking and withdrawal functionality, reward calculation models, APR estimation, and claim processing. The NFT platform automated artwork generation and metadata creation while providing a minting website integrated with MetaMask and Ethereum smart contracts. To support development and testing, React- and Python-based contract interaction tools were created and deployed through AWS infrastructure.",
+  "result": "Developed ERC20 staking contracts and built tools to test contract interactions and compare reward models.",
+  "image": "assets/projects/202210-staking.png",
+  "story": "At Alocados Inc., I used ApeCoin Staking as a reference for an Ethereum staking platform. I implemented deposits, withdrawals, reward calculations, APR estimates, and claims, and built React and Python tools to test contract interactions.",
   "outcomes": [
     "Developed ERC20 staking smart contracts with deposit, withdrawal, claim, and reward distribution functions.",
     "Designed reward algorithms to improve fairness and prevent short-term staking exploitation.",
-    "Researched and analyzed production staking implementations including ApeCoin staking mechanisms.",
     "Built React and Python testing platforms for smart contract interaction using Web3.js and Web3.py.",
-    "Created NFT minting infrastructure based on ERC721 standards and MetaMask integration.",
-    "Automated NFT image and metadata generation using Python and Pillow.",
     "Deployed frontend applications through AWS S3, CloudFront, and GitHub Actions CI/CD pipelines."
+  ]
+},
+  {
+  "id": "crypto-vincent",
+  "type": "project",
+  "categories": ["security"],
+  "category": "Blockchain / NFT",
+  "title": "Crypto Vincent",
+  "summary": "A personal Ethereum NFT project featuring 550 generative pixel-art portraits inspired by Vincent van Gogh, with a dedicated minting website.",
+  "role": "Developer (Personal Project)",
+  "stack": ["Ethereum", "Solidity", "ERC721", "MetaMask", "Python", "Pillow"],
+  "image": "assets/projects/crypto-vincent.png",
+  "story": "I built Crypto Vincent to explore how generative artwork could become a mintable NFT collection. I used Python and Pillow to create pixel-art variants by adjusting the original portrait’s RGB values, generated metadata for each artwork, and built a website that connected MetaMask to an ERC721 smart contract for minting.",
+  "outcomes": [
+    "Automated artwork and metadata generation for 550 unique portraits.",
+    "Built a minting website with MetaMask integration for the Ethereum NFT collection."
   ],
   "links": [
     {

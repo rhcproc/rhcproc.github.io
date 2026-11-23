@@ -19,7 +19,7 @@ const filterProgress = document.querySelector("[data-filter-progress]");
 const filterCount = document.querySelector("[data-filter-count]");
 const projectGrid = document.querySelector("[data-project-grid]");
 const categoryFilters = document.querySelector("[data-category-filters]");
-const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", security: "Security", research: "Research" };
+const categoryNames = { all: "All", software: "IT / Software", ai: "AI / Data", security: "Security / Blockchain", research: "Research" };
 const softwarePriority = ["factoryflow", "teammaker", "crypto-trading-platform", "aws-stock-pipeline", "python-korea-seminar"];
 const visibleSkillLimit = 15;
 
@@ -164,7 +164,7 @@ function renderProjectCards(projectList) {
   const normalizedProjects = projectList.map(normalizeProject);
   // Number chronologically, independently of card order and active filters.
   [...normalizedProjects]
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
+    .sort((a, b) => Number(!a.date) - Number(!b.date) || a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
     .forEach((project, index) => { project.number = index + 1; });
   projects = Object.fromEntries(normalizedProjects.map((project) => [project.id, project]));
   projectOrder = normalizedProjects.map((project) => project.id);
